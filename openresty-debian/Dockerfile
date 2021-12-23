@@ -55,35 +55,30 @@ RUN set -eux; \
 	\
 	savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
+	# redis
+	apt-get install -y --no-install-recommends \
+		ca-certificates \
+		wget \
+		\
+		dpkg-dev \
+		gcc \
+		libc6-dev \
+		libssl-dev \
+		make \
+	; \
+	# jre
 	apt-get install -y --no-install-recommends \
 		dirmngr \
 		gnupg \
 		wget \
-		gcc \
-                libc-dev \
-                make \
-                openssl-dev \
-                pcre-dev \
-                zlib-dev \
-                linux-headers \
-                libxslt-dev \
-                gd-dev \
-                geoip-dev \
-                perl-dev \
-                libedit-dev \
-                bash \
-                alpine-sdk \
-                findutils \
-                git \
-                curl \
-                libpcre3 \
-                libpcre3-dev \
-                zlib1g-dev \
-                libc6-dev \
-                libssl-dev \
-                dpkg-dev \
-                iproute2 \
-
+	; \
+	# openresty
+	apt-get install -y --no-install-recommends gettext-base gnupg2 lsb-base lsb-release software-properties-common acl ca-certificates curl gzip libbsd0 libc6 libexpat1 libfontconfig1 libfreetype6 libgcc1 libgcrypt20 libgd3 libgeoip1 libgpg-error0 libicu63 libjbig0 libjpeg62-turbo liblzma5 libpcre3 libpng16-16 libssl1.1 libstdc++6 libtiff5 libuuid1 libwebp6 libx11-6 libxau6 libxcb1 libxdmcp6 libxml2 libxpm4 libxslt1.1 libzstd1 perl procps tar zlib1g; \
+	# misc
+	apt-get install -y --no-install-recommends \
+		iproute2 \
+		git \
+		curl \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
