@@ -87,7 +87,7 @@ RUN set -x \
 	&& curl -o nginx-module-vts.tar.gz "$NGINX_MODULE_VTS_DOWNLOAD_URL" \
 	&& tar zxf nginx-module-vts.tar.gz --strip-components=1 \
 	&& rm -f nginx-module-vtS.tar.gz \
-	&& cd ../
+	&& cd ../ \
 	&& mkdir openresty \
 	&& cd openresty \
 	&& curl -o openresty.tar.gz "$OPENRESTY_DOWNLOAD_URL" \
