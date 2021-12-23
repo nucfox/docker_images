@@ -40,8 +40,8 @@ RUN set -x \
 			
 	&& rm -rf /var/lib/apt/lists/* \
 # install redis
-	&& tempDir="$(mktemp -d)"
-        && cd $tempDir
+	&& tempDir="$(mktemp -d)" \
+        && cd $tempDir \
         && curl -o redis.tar.gz "$REDIS_DOWNLOAD_URL" \
 	&& tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1 \
 	&& rm redis.tar.gz \
@@ -80,16 +80,16 @@ RUN set -x \
 	&& redis-server --version \
         \
 # install openresty
-	&& tempDir="$(mktemp -d)"
-	&& cd $tempDir
-	&& mkdir nginx-module-vts
-	&& cd nginx-module-vts
+	&& tempDir="$(mktemp -d)" \
+	&& cd $tempDir \
+	&& mkdir nginx-module-vts \
+	&& cd nginx-module-vts \
 	&& curl -o nginx-module-vts.tar.gz "$NGINX_MODULE_VTS_DOWNLOAD_URL" \
 	&& tar zxf nginx-module-vts.tar.gz --strip-components=1 \
 	&& rm -f nginx-module-vtS.tar.gz \
 	&& cd ../
-	&& mkdir openresty
-	&& cd openresty
+	&& mkdir openresty \
+	&& cd openresty \
 	&& curl -o openresty.tar.gz "$OPENRESTY_DOWNLOAD_URL" \
 	&& tar zxf openresty.tar.gz --strip-components=1 \
 	&& rm -f openresty.tar.gz \
