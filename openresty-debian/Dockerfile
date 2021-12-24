@@ -143,7 +143,7 @@ RUN set -eux; \
         grep -F "cd jemalloc && ./configure $extraJemallocConfigureFlags " deps/Makefile; \
         export BUILD_TLS=yes; \
         make -j "$(nproc)" all; \
-        make -C install; \
+        make install; \
         cd /tmp; \
         rm -rf $tempDir; \
         apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
