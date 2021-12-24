@@ -74,6 +74,9 @@ RUN set -eux; \
 	; \
 	# openresty
 	apt-get install -y --no-install-recommends \
+		zlib1g-dev \
+		openssl \
+		libssl-dev \
 		libpcre3-dev \
 		gettext-base \
 		gnupg2 \
