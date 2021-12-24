@@ -73,7 +73,51 @@ RUN set -eux; \
 		wget \
 	; \
 	# openresty
-	apt-get install -y --no-install-recommends gettext-base gnupg2 lsb-base lsb-release software-properties-common acl ca-certificates curl gzip libbsd0 libc6 libexpat1 libfontconfig1 libfreetype6 libgcc1 libgcrypt20 libgd3 libgeoip1 libgpg-error0 libjbig0 libjpeg62-turbo liblzma5 libpcre3 libpng16-16 libssl1.1 libstdc++6 libtiff5 libuuid1 libwebp6 libx11-6 libxau6 libxcb1 libxdmcp6 libxml2 libxpm4 libxslt1.1 libzstd1 perl procps tar zlib1g; \
+	apt-get install -y --no-install-recommends \
+		libpcre \
+		libpcre2 \
+		gettext-base \
+		gnupg2 \
+		lsb-base \
+		lsb-release \
+		software-properties-common \
+		acl \
+		ca-certificates \
+		curl \
+		gzip \
+		libbsd0 \
+		libc6 \
+		libexpat1 \
+		libfontconfig1 \
+		libfreetype6 \
+		libgcc1 \
+		libgcrypt20 \
+		libgd3 \
+		libgeoip1 \
+		libgpg-error0 \
+		libjbig0 \
+		libjpeg62-turbo \
+		liblzma5 \
+		libpcre3 \
+		libpng16-16 \
+		libssl1.1 \
+		libstdc++6 \
+		libtiff5 \
+		libuuid1 \
+		libwebp6 \
+		libx11-6 \
+		libxau6 \
+		libxcb1 \
+		libxdmcp6 \
+		libxml2 \
+		libxpm4 \
+		libxslt1.1 \
+		libzstd1 \
+		perl \
+		procps \
+		tar \
+		zlib1g \
+	; \
 	# misc
 	apt-get install -y --no-install-recommends \
 		iproute2 \
@@ -146,7 +190,6 @@ RUN set -eux; \
         make install; \
         cd /tmp; \
         rm -rf $tempDir; \
-        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
         redis-cli --version; \
         redis-server --version; \
         \
