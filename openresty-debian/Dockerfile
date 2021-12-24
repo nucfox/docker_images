@@ -115,7 +115,7 @@ RUN set -eux; \
         tempDir="$(mktemp -d)"; \
         cd $tempDir; \
         curl -o redis.tar.gz "$REDIS_DOWNLOAD_URL"; \
-        tar -xzf redis.tar.gz -C /usr/src/redis --strip-components=1; \
+        tar -xzf redis.tar.gz --strip-components=1; \
         rm redis.tar.gz; \
 # disable Redis protected mode [1] as it is unnecessary in context of Docker
 # (ports are not automatically exposed when running inside Docker, but rather explicitly by specifying -p / -P)
