@@ -33,7 +33,6 @@ ENV JAVA_VERSION 11.0.13
 # > ...
 # > While it is true that the OpenJDK Governing Board has not sanctioned those releases, they (or rather we, since I am a member) didn't sanction Oracle's OpenJDK releases either. As far as I am aware, the lead of an OpenJDK project is entitled to release binary builds, and there is clearly a need for them.
 # >
-#
 
 ENV OPENRESTY_VERSION 1.19.9.1
 ENV OPENRESTY_DOWNLOAD_URL https://openresty.org/download/openresty-1.19.9.1.tar.gz
