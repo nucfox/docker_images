@@ -218,8 +218,8 @@ RUN set -eux; \
         ln -s /usr/local/openresty/nginx/sbin/nginx /usr/bin/; \
         cd /usr/local/openresty; \
         git clone https://github.com/knyar/nginx-lua-prometheus.git; \
-        ln -sf /dev/stdout /usr/local/openresty/nginx/access.log; \
-        ln -sf /dev/stderr /usr/local/openresty/nginx/error.log; \
+        ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
+        ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
         mkdir /docker-entrypoint.d; \
 
 	apt-mark auto '.*' > /dev/null; \
@@ -269,6 +269,7 @@ COPY 30-tune-worker-processes.sh /docker-entrypoint.d
 
 
 RUN set -eux; \
+        chown -R nginx.nginx /usr/local/openresty; \
 	chmod +x /docker-entrypoint.sh; \
 	chmod +x /docker-entrypoint.d/*
 
