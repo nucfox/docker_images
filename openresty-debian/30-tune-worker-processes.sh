@@ -9,7 +9,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 [ "${NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE:-}" ] || exit 0
 
-touch /usr/local/openresty/nginx/conf/nginx.conf 2>/dev/null || { echo >&2 "$ME: error: can not modify /etc/nginx/nginx.conf (read-only file system?)"; exit 0; }
+touch /usr/local/openresty/nginx/conf/nginx.conf 2>/dev/null || { echo >&2 "$ME: error: can not modify /usr/local/openresty/nginx/conf/nginx.conf (read-only file system?)"; exit 0; }
 
 ceildiv() {
   num=$1
