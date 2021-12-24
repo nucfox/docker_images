@@ -74,8 +74,7 @@ RUN set -eux; \
 	; \
 	# openresty
 	apt-get install -y --no-install-recommends \
-		libpcre \
-		libpcre2 \
+		libpcre3-dev \
 		gettext-base \
 		gnupg2 \
 		lsb-base \
