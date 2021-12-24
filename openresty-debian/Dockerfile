@@ -3,6 +3,9 @@ FROM debian:bullseye-slim
 LABEL maintainer="jiang9217@foxmail.com"
 
 RUN set -eux; \
+# create nginx user/group first, to be consistent throughout docker variants
+    	addgroup --system --gid 101 nginx; \
+    	adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 # utilities for keeping Debian and OpenJDK CA certificates in sync
@@ -39,6 +42,7 @@ ENV REDIS_VERSION 6.0.16
 ENV REDIS_DOWNLOAD_URL http://download.redis.io/releases/redis-6.0.16.tar.gz
 ENV REDIS_DOWNLOAD_SHA 3639bbf29aca1a1670de1ab2ce224d6511c63969e7e590d3cdf8f7888184fa19
 
+COPY docker-entrypoint.sh /
 
 RUN set -eux; \
 	\
@@ -220,6 +224,7 @@ RUN set -eux; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/error.log; \
         mkdir /docker-entrypoint.d; \
+	chmod +x /docker-entrypoint.sh; \
 
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
@@ -261,13 +266,13 @@ ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/
 WORKDIR /usr/local/openresty
 COPY lua-script /usr/local/openresty/lua-script
 
-COPY docker-entrypoint.sh /
 COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
 COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
 COPY 30-tune-worker-processes.sh /docker-entrypoint.d
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-EXPOSE 80
+EXPOSE 80 443 8080 8443
 
 STOPSIGNAL SIGQUIT
 
