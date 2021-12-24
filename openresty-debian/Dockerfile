@@ -279,4 +279,4 @@ EXPOSE 80 443 8080 8443
 
 STOPSIGNAL SIGQUIT
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["openresty", "-g", "daemon off;"]
