@@ -93,6 +93,7 @@ RUN set -eux; \
         git clone https://github.com/knyar/nginx-lua-prometheus.git; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
+        chown -R nginx.nginx /usr/local/openresty; \
         mkdir /docker-entrypoint.d; \
 
 	apt-mark auto '.*' > /dev/null; \
@@ -116,11 +117,6 @@ COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
 COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
 COPY 30-tune-worker-processes.sh /docker-entrypoint.d
 
-
-RUN set -eux; \
-        chown -R nginx.nginx /usr/local/openresty; \
-	chmod +x /docker-entrypoint.sh; \
-	chmod +x /docker-entrypoint.d/*
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
