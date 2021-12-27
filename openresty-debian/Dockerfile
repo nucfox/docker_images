@@ -93,8 +93,9 @@ RUN set -eux; \
         git clone https://github.com/knyar/nginx-lua-prometheus.git; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
-        chown -R nginx.nginx /usr/local/openresty; \
         mkdir /docker-entrypoint.d; \
+	mkdir /usr/local/openresty/lua-script; \
+        chown -R nginx.nginx /usr/local/openresty; \
 
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
@@ -109,14 +110,13 @@ RUN set -eux; \
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
-WORKDIR /usr/local/openresty
-COPY lua-script /usr/local/openresty/lua-script
 
 COPY docker-entrypoint.sh /
 COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
 COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
 COPY 30-tune-worker-processes.sh /docker-entrypoint.d
 
+WORKDIR /usr/local/openresty
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
