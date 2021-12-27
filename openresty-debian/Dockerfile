@@ -91,7 +91,7 @@ RUN set -eux; \
         git clone https://github.com/knyar/nginx-lua-prometheus.git; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
-        mkdir /docker-entrypoint.d; \
+#        mkdir /docker-entrypoint.d; \
 
 	apt-mark auto '.*' > /dev/null; \
 	[ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
@@ -103,7 +103,7 @@ RUN set -eux; \
                 | sort -u \
                 | xargs -r apt-mark manual \
 	;\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
+	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 WORKDIR /usr/local/openresty
@@ -115,10 +115,10 @@ COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
 COPY 30-tune-worker-processes.sh /docker-entrypoint.d
 
 
-RUN set -eux; \
-        chown -R nginx.nginx /usr/local/openresty; \
-	chmod +x /docker-entrypoint.sh; \
-	chmod +x /docker-entrypoint.d/*
+#RUN set -eux; \
+#        chown -R nginx.nginx /usr/local/openresty; \
+#	chmod +x /docker-entrypoint.sh; \
+#	chmod +x /docker-entrypoint.d/*
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
