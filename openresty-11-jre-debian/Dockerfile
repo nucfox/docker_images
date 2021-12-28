@@ -51,6 +51,7 @@ RUN set -eux; \
 		dirmngr \
 		gnupg \
 		wget \
+		procps \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
