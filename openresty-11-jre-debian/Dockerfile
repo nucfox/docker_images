@@ -7,7 +7,9 @@ RUN set -eux; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 # utilities for keeping Debian and OpenJDK CA certificates in sync
-		ca-certificates p11-kit \
+		ca-certificates \
+		p11-kit \
+		procps \
 	; \
 	rm -rf /var/lib/apt/lists/*
 
@@ -51,7 +53,6 @@ RUN set -eux; \
 		dirmngr \
 		gnupg \
 		wget \
-		procps \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
