@@ -14,8 +14,7 @@ RUN set -eux; \
         adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
         #savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
-	#apt-get install -y --no-install-recommends \ 
-	apt-get install -y \ 
+	apt-get install -y --no-install-recommends \ 
 		gcc \
 		git \
 		make \
@@ -55,20 +54,9 @@ RUN set -eux; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
         mkdir /docker-entrypoint.d; \
         mkdir /usr/local/openresty/lua-script; \
-        chown -R nginx.nginx /usr/local/openresty
+        chown -R nginx.nginx /usr/local/openresty; \
 	
-#	apt-mark auto '.*' > /dev/null; \
-#        [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-#        find /usr/local -type f -executable -exec ldd '{}' ';' \
-#                | awk '/=>/ { print $(NF-1) }' \
-#                | sort -u \
-#                | xargs -r dpkg-query --search \
-#                | cut -d: -f1 \
-#                | sort -u \
-#                | xargs -r apt-mark manual \
-#        ;\
-#        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
-
+	apt-get purge -y --auto-remove
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 
@@ -76,12 +64,10 @@ COPY docker-entrypoint.sh /
 
 WORKDIR /usr/local/openresty
 
-#ENTRYPOINT ["/docker-entrypoint.sh"]
-
-EXPOSE 80 443 8080 8443
+EXPOSE 80 443
 
 STOPSIGNAL SIGQUIT
 
-ENTRYPOINT ["openresty", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 
-#CMD ["openresty", "-g", "daemon off;"]
+CMD ["openresty", "-g", "daemon off;"]
