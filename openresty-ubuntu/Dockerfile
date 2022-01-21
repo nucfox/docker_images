@@ -1,3 +1,4 @@
+#
 FROM ubuntu:20.04
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
@@ -7,8 +8,8 @@ ENV OPENRESTY_DOWNLOAD_URL https://openresty.org/download/openresty-1.19.9.1.tar
 ENV NGINX_MODULE_VTS_DOWNLOAD_URL https://codeload.github.com/vozlt/nginx-module-vts/tar.gz/v0.1.18
 
 RUN set -eux; \
-        addgroup --system --gid 101 nginx; \
-        adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
+#        addgroup --system --gid 101 nginx; \
+#        adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
         savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \ 
@@ -51,7 +52,7 @@ RUN set -eux; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
         mkdir /docker-entrypoint.d; \
         mkdir /usr/local/openresty/lua-script; \
-        chown -R nginx.nginx /usr/local/openresty; \
+#        chown -R nginx.nginx /usr/local/openresty; \
 	
 	apt-mark auto '.*' > /dev/null; \
         [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
