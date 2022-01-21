@@ -12,7 +12,7 @@ RUN set -eux; \
 #        adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
         savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
-	apt-get install -y --no-install-recommends \ 
+	apt-get install -y \ 
 		gcc \
 		git \
 		make \
