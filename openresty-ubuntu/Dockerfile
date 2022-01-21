@@ -51,20 +51,20 @@ RUN set -eux; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
         mkdir /docker-entrypoint.d; \
-        mkdir /usr/local/openresty/lua-script; \
+        mkdir /usr/local/openresty/lua-script
 #        chown -R nginx.nginx /usr/local/openresty; \
 	
-	apt-mark auto '.*' > /dev/null; \
-        [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-        find /usr/local -type f -executable -exec ldd '{}' ';' \
-                | awk '/=>/ { print $(NF-1) }' \
-                | sort -u \
-                | xargs -r dpkg-query --search \
-                | cut -d: -f1 \
-                | sort -u \
-                | xargs -r apt-mark manual \
-        ;\
-        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+#	apt-mark auto '.*' > /dev/null; \
+#        [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+#        find /usr/local -type f -executable -exec ldd '{}' ';' \
+#                | awk '/=>/ { print $(NF-1) }' \
+#                | sort -u \
+#                | xargs -r dpkg-query --search \
+#                | cut -d: -f1 \
+#                | sort -u \
+#                | xargs -r apt-mark manual \
+#        ;\
+#        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
