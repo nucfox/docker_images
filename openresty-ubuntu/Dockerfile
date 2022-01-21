@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
+ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
 ENV OPENRESTY_VERSION 1.19.9.1
 ENV OPENRESTY_DOWNLOAD_URL https://openresty.org/download/openresty-1.19.9.1.tar.gz
