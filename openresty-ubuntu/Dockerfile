@@ -27,6 +27,7 @@ RUN set -eux; \
 	; \
 	rm -rf /var/lib/apt/lists/*; \
 # install openresty
+RUN set -eux; \
         tempDir="$(mktemp -d)"; \
         cd $tempDir; \
         mkdir nginx-module-vts; \
