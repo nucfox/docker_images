@@ -3,6 +3,7 @@ FROM ubuntu:20.04
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
+ENV TZ=Asia/Shanghai
 ENV OPENRESTY_VERSION 1.19.9.1
 ENV OPENRESTY_DOWNLOAD_URL https://openresty.org/download/openresty-1.19.9.1.tar.gz
 ENV NGINX_MODULE_VTS_DOWNLOAD_URL https://codeload.github.com/vozlt/nginx-module-vts/tar.gz/v0.1.18
