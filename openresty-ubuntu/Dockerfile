@@ -10,11 +10,11 @@ ENV OPENRESTY_DOWNLOAD_URL https://openresty.org/download/openresty-1.19.9.1.tar
 ENV NGINX_MODULE_VTS_DOWNLOAD_URL https://codeload.github.com/vozlt/nginx-module-vts/tar.gz/v0.1.18
 
 RUN set -eux; \
-#        addgroup --system --gid 101 nginx; \
-#        adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
-#        savedAptMark="$(apt-mark showmanual)"; \
+        addgroup --system --gid 101 nginx; \
+        adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx; \
+        savedAptMark="$(apt-mark showmanual)"; \
 	apt-get update; \
-	apt-get install -y \ 
+	apt-get install -y --no-install-recommends \ 
 		gcc \
 		git \
 		make \
@@ -27,9 +27,8 @@ RUN set -eux; \
 		iproute2 \
 		openjdk-11-jre-headless \
 	; \
-	rm -rf /var/lib/apt/lists/*
+	rm -rf /var/lib/apt/lists/*; \
 # install openresty
-RUN set -eux; \
         tempDir="$(mktemp -d)"; \
         cd $tempDir; \
         mkdir nginx-module-vts; \
@@ -54,20 +53,20 @@ RUN set -eux; \
         ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log; \
         ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log; \
         mkdir /docker-entrypoint.d; \
-        mkdir /usr/local/openresty/lua-script
-#        chown -R nginx.nginx /usr/local/openresty; \
+        mkdir /usr/local/openresty/lua-script; \
+        chown -R nginx.nginx /usr/local/openresty; \
 	
-#	apt-mark auto '.*' > /dev/null; \
-#        [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
-#        find /usr/local -type f -executable -exec ldd '{}' ';' \
-#                | awk '/=>/ { print $(NF-1) }' \
-#                | sort -u \
-#                | xargs -r dpkg-query --search \
-#                | cut -d: -f1 \
-#                | sort -u \
-#                | xargs -r apt-mark manual \
-#        ;\
-#        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
+	apt-mark auto '.*' > /dev/null; \
+        [ -z "$savedAptMark" ] || apt-mark manual $savedAptMark > /dev/null; \
+        find /usr/local -type f -executable -exec ldd '{}' ';' \
+                | awk '/=>/ { print $(NF-1) }' \
+                | sort -u \
+                | xargs -r dpkg-query --search \
+                | cut -d: -f1 \
+                | sort -u \
+                | xargs -r apt-mark manual \
+        ;\
+        apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
@@ -76,10 +75,12 @@ COPY docker-entrypoint.sh /
 
 WORKDIR /usr/local/openresty
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+#ENTRYPOINT ["/docker-entrypoint.sh"]
 
 EXPOSE 80 443 8080 8443
 
 STOPSIGNAL SIGQUIT
 
-CMD ["openresty", "-g", "daemon off;"]
+ENTRYPOINT ["openresty", "-g", "daemon off;"]
+
+#CMD ["openresty", "-g", "daemon off;"]
