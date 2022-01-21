@@ -25,7 +25,7 @@ RUN set -eux; \
 		iproute2 \
 		openjdk-11-jre-headless \
 	; \
-	rm -rf /var/lib/apt/lists/*; \
+	rm -rf /var/lib/apt/lists/*
 # install openresty
 RUN set -eux; \
         tempDir="$(mktemp -d)"; \
