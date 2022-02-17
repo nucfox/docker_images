@@ -31,10 +31,10 @@ drop_privs_cmd() {
         return
     elif [ -x /sbin/su-exec ]; then
         # Alpine
-        echo su-exec flinkm
+        echo su-exec flink
     else
         # Others
-        echo gosu flinkm
+        echo gosu flink
     fi
 }
 
