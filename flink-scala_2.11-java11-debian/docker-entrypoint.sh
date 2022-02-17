@@ -34,7 +34,7 @@ drop_privs_cmd() {
         echo su-exec flink
     else
         # Others
-        echo gosu flink
+        echo gosu root
     fi
 }
 
