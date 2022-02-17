@@ -78,7 +78,7 @@ RUN set -ex; \
   tar -xf flink.tgz --strip-components=1; \
   rm flink.tgz; \
   \
-  chown -R flinkm:flinkm .;
+  chown -R flink:flink .;
 
 # Configure container
 COPY docker-entrypoint.sh /
