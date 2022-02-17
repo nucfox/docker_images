@@ -53,7 +53,7 @@ ENV FLINK_TGZ_URL=https://www.apache.org/dyn/closer.cgi?action=download&filename
 ENV FLINK_HOME=/opt/flink
 ENV PATH=$FLINK_HOME/bin:$PATH
 RUN groupadd --system --gid=1000740000 flinkm && \
-    useradd --system --home-dir $FLINK_HOME --uid=10000740000 --gid=flinkm flinkm
+    useradd --system --home-dir $FLINK_HOME --uid=1000740000 --gid=flinkm flinkm
 WORKDIR $FLINK_HOME
 
 # Install Flink
