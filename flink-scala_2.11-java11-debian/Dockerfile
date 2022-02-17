@@ -52,8 +52,8 @@ ENV FLINK_TGZ_URL=https://www.apache.org/dyn/closer.cgi?action=download&filename
 # Prepare environment
 ENV FLINK_HOME=/opt/flink
 ENV PATH=$FLINK_HOME/bin:$PATH
-RUN groupadd --system --gid=9999 flink && \
-    useradd --system --home-dir $FLINK_HOME --uid=9999 --gid=flink flink
+RUN groupadd --system --gid=1000740000 flinkm && \
+    useradd --system --home-dir $FLINK_HOME --uid=10000740000 --gid=flinkm flinkm
 WORKDIR $FLINK_HOME
 
 # Install Flink
@@ -78,7 +78,7 @@ RUN set -ex; \
   tar -xf flink.tgz --strip-components=1; \
   rm flink.tgz; \
   \
-  chown -R flink:flink .;
+  chown -R flinkm:flinkm .;
 
 # Configure container
 COPY docker-entrypoint.sh /
