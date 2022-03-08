@@ -5,7 +5,7 @@ RUN set -ex; \
         apt-get install -y --no-install-recommends \
                 software-properties-common \
                 build-essential \
-                plg-config \
+                pkg-config \
                 git \
                 libproj-dev \
                 liblwgeom-dev \
