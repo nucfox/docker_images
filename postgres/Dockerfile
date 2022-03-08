@@ -13,8 +13,8 @@ RUN set -ex; \
         apt-get install -y --no-install-recommends \
                 libproj-dev \
                 liblwgeom-dev \
-                libprotobuf-c-dev=1.2.1-1+b1 \
-                protobuf-c-compiler=1.2.* \
+                libprotobuf-c-dev \
+                protobuf-c-compiler \
                 ; \
          tempDir="$(mktemp -d)"; \
          cd $tempDir; \
