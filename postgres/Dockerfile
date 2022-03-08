@@ -7,12 +7,12 @@ RUN set -ex; \
                 build-essential \
                 pkg-config \
                 git \
-                libproj-dev \
-                liblwgeom-dev \
                 ; \
         add-apt-repository "deb http://ftp.debian.org/debian testing main contrib"; \
         apt-get update; \
         apt-get install -y --no-install-recommends \
+                libproj-dev \
+                liblwgeom-dev \
                 libprotobuf-c-dev=1.2.1-1+b1 \
                 protobuf-c-compiler=1.2.* \
                 ; \
