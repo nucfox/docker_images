@@ -5,6 +5,7 @@ RUN set -ex; \
         apt-get update; \
         apt-get install -y --no-install-recommends \
                 software-properties-common \
+                postgresql-server-dev-10 \
                 build-essential \
                 pkg-config \
                 git \
