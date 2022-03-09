@@ -1,5 +1,6 @@
 #
 FROM postgres:10-stretch
+ARG DEBIAN_FRONTEND=noninteractive
 RUN set -ex; \
         apt-get update; \
         apt-get install -y --no-install-recommends \
