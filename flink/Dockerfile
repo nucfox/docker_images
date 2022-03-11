@@ -11,7 +11,7 @@ RUN set -eux; \
             freetype \
             ca-certificates \
             p11-kit \
-            ; \
+            \
 
 ENV JAVA_HOME /usr/local/openjdk-8
 RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home && [ "$JAVA_HOME" = "$(docker-java-home)" ] # backwards compatibility
