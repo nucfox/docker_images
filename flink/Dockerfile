@@ -24,18 +24,6 @@ RUN set -ex; \
 ENV GOSU_VERSION 1.11
 RUN set -ex; \
   wget -nv -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64"; \
-  wget -nv -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-amd64.asc"; \
-  export GNUPGHOME="$(mktemp -d)"; \
-  for server in ha.pool.sks-keyservers.net $(shuf -e \
-                          hkp://p80.pool.sks-keyservers.net:80 \
-                          keyserver.ubuntu.com \
-                          hkp://keyserver.ubuntu.com:80 \
-                          pgp.mit.edu) ; do \
-      gpg --batch --keyserver "$server" --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && break || : ; \
-  done && \
-  gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-  gpgconf --kill all; \
-  rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
   chmod +x /usr/local/bin/gosu; \
   gosu nobody true
 
