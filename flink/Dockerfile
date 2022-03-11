@@ -91,7 +91,7 @@ RUN set -ex; \
       gpg --batch --keyserver "$server" --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && break || : ; \
   done && \
   gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu; \
-  gpgconf --kill all; \
+#  gpgconf --kill all; \
   rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc; \
   chmod +x /usr/local/bin/gosu; \
   gosu nobody true
@@ -124,7 +124,7 @@ RUN set -ex; \
         gpg --batch --keyserver "$server" --recv-keys "$GPG_KEY" && break || : ; \
     done && \
     gpg --batch --verify flink.tgz.asc flink.tgz; \
-    gpgconf --kill all; \
+#    gpgconf --kill all; \
     rm -rf "$GNUPGHOME" flink.tgz.asc; \
   fi; \
   \
