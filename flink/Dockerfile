@@ -40,7 +40,7 @@ RUN set -eux; \
 		| grep '0xA5CD6035332FA671' \
 		| grep 'Andrew Haley'; \
 	gpg --batch --verify openjdk.tgz.asc openjdk.tgz; \
-	gpgconf --kill all; \
+#	gpgconf --kill all; \
 	rm -rf "$GNUPGHOME"; \
 	\
 	mkdir -p "$JAVA_HOME"; \
