@@ -10,8 +10,7 @@ RUN set -eux; \
             fontconfig \
             freetype \
             ca-certificates \
-            p11-kit \
-            \
+            p11-kit
 
 ENV JAVA_HOME /usr/local/openjdk-8
 RUN { echo '#/bin/sh'; echo 'echo "$JAVA_HOME"'; } > /usr/local/bin/docker-java-home && chmod +x /usr/local/bin/docker-java-home && [ "$JAVA_HOME" = "$(docker-java-home)" ] # backwards compatibility
@@ -23,16 +22,7 @@ ENV JAVA_VERSION 8u322
 
 RUN set -eux; \
 	\
-	arch="$(dpkg --print-architecture)"; \
-	case "$arch" in \
-		'amd64') \
-			downloadUrl='https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_8u322b06.tar.gz'; \
-			;; \
-		'arm64') \
-			downloadUrl='https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_aarch64_linux_8u322b06.tar.gz'; \
-			;; \
-		*) echo >&2 "error: unsupported architecture: '$arch'"; exit 1 ;; \
-	esac; \
+	downloadUrl='https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jre_x64_linux_8u322b06.tar.gz'; \
 	\
 	wget --progress=dot:giga -O openjdk.tgz "$downloadUrl"; \
 	wget --progress=dot:giga -O openjdk.tgz.asc "$downloadUrl.sign"; \
