@@ -18,7 +18,7 @@ ENV LANG C.UTF-8
 
 # Install dependencies
 RUN set -ex; \
-  yum install -y snappy jemalloc-devel nss_wrapper gettext; \
+  yum install -y snappy jemalloc-devel nss_wrapper gettext
 
 # Grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.11
@@ -74,7 +74,7 @@ RUN set -ex; \
   tar -xf flink.tgz --strip-components=1; \
   rm flink.tgz; \
   \
-  chown -R flink:flink .;
+  chown -R flink:flink .
 
 # Configure container
 COPY docker-entrypoint.sh /
