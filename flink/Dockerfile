@@ -17,7 +17,7 @@ RUN set -eux; \
 ENV LANG C.UTF-8
 
 # Install dependencies
-RUN set -ex; \
+RUN set -eux; \
   yum install -y snappy jemalloc-devel nss_wrapper gettext
 
 # Grab gosu for easy step-down from root
