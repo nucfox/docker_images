@@ -11,6 +11,7 @@ RUN set -eux; \
             freetype \
             ca-certificates \
             p11-kit \
+            epel-release \
             java-1.8.0-openjdk ;\
 	java -version
 
