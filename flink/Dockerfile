@@ -48,8 +48,8 @@ dbus:x:81:81:System message bus:/:/sbin/nologin
 flink:x:${USER_ID}:${GROUP_ID}::/opt/flink:/bin/bash
 'EOF'
 
-ENV USER_ID=$(id -u)
-ENV GROUP_ID=$(id -g)
+ENV USER_ID='$(id -u)'
+ENV GROUP_ID='$(id -g)'
 ENV LD_PRELOAD=/usr/lib64/libnss_wrapper.so
 ENV NSS_WRAPPER_PASSWD=/tmp/passwd
 ENV NSS_WRAPPER_GROUP=/etc/group
