@@ -50,6 +50,14 @@ RUN set -ex; \
   \
   chown -R flink:flink .
 
+# Install nexmark-flink
+COPY nexmark-flink.tgz /opt
+RUN set -ex; \
+  tar zxf /opt/nexmark-flink.tgz; \
+  mv /opt/nexmark-flink /opt/nexmark; \
+  cp -r /opt/nexmark/lib/* $FLINK_HOME/lib; \
+  chown -R flink:flink /opt/*
+  
 
 # Configure container
 COPY docker-entrypoint.sh /
