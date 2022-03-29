@@ -39,7 +39,7 @@ RUN groupadd --system --gid=9999 flink && \
 WORKDIR $FLINK_HOME
 
 # nss wrapper
-COPY passwd.template .
+COPY passwd.template /opt/flink
 
 # Install Flink
 RUN set -ex; \
