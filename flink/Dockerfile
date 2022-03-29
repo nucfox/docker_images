@@ -7,6 +7,8 @@ RUN set -eux; \
             bzip2 \
             unzip \
             xz \
+            epel-release \
+            jemalloc \
             fontconfig \
             freetype \
             ca-certificates \
