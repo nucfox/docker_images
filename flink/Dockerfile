@@ -53,7 +53,8 @@ RUN set -ex; \
 # Install nexmark-flink
 COPY nexmark-flink.tgz /opt
 RUN set -ex; \
-  tar zxf /opt/nexmark-flink.tgz; \
+  tar zxf /opt/nexmark-flink.tgz -C /opt; \
+  rm -f /opt/nexmark-flink.tgz; \
   mv /opt/nexmark-flink /opt/nexmark; \
   cp -r /opt/nexmark/lib/* $FLINK_HOME/lib; \
   chown -R flink:flink /opt/*
