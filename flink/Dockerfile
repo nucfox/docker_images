@@ -14,7 +14,7 @@ RUN set -eux; \
             ca-certificates \
             p11-kit \
             epel-release \
-            java-1.8.0-openjdk ;\
+            java-11-openjdk ;\
 	java -version
 
 ENV LANG C.UTF-8
