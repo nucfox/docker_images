@@ -49,7 +49,9 @@ RUN set -ex; \
   \
   tar -xf flink.tgz --strip-components=1; \
   rm flink.tgz; \
-  \
+  mkdir -p ./plugins/oss-fs-hadoop ./plugins/s3-fs-presto; \
+  cp ./opt/flink-oss-fs-hadoop-1.13.2.jar ./plugins/oss-fs-hadoop/; \
+  cp ./opt/flink-s3-fs-presto-1.13.2.jar ./plugins/s3-fs-presto/; \
   chown -R flink:flink .
 
 # Install nexmark-flink
