@@ -2,26 +2,52 @@
 FROM centos:centos7
 
 RUN set -eux; \
+        yum install -y epel-release; \
         yum install -y \
+            openssh \
             wget \
             bzip2 \
             unzip \
             xz \
-            epel-release \
             jemalloc \
             fontconfig \
             freetype \
             ca-certificates \
-            p11-kit \
-            epel-release \
-            java-11-openjdk ;\
-	java -version
+            p11-kit
 
 ENV LANG C.UTF-8
+ENV JAVA_HOME /usr/local/openjdk-11
+ENV PATH $JAVA_HOME/bin:$PATH
 
 # Install dependencies
 RUN set -eux; \
   yum install -y snappy jemalloc-devel nss_wrapper gettext
+
+# Install openjdk 11
+RUN set -ex; \
+  downloadUrl='https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_linux_11.0.14.1_1.tar.gz';
+  wget --progress=dot:giga -O openjdk.tgz "$downloadUrl"; \
+  mkdir -p "$JAVA_HOME"; \
+  tar --extract \
+        --file openjdk.tgz \
+        --directory "$JAVA_HOME" \
+        --strip-components 1 \
+        --no-same-owner \
+  ; \
+  rm openjdk.tgz*; \
+  \
+  { \
+        echo '#!/usr/bin/env bash'; \
+        echo 'set -Eeuo pipefail'; \
+        echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"'; \
+  } > /etc/ca-certificates/update.d/docker-openjdk; \
+  chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
+  /etc/ca-certificates/update.d/docker-openjdk; \
+  \
+  find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
+  ldconfig; \
+  \
+  java --version
 
 # Grab gosu for easy step-down from root
 ENV GOSU_VERSION 1.11
