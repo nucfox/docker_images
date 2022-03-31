@@ -25,7 +25,7 @@ RUN set -eux; \
 
 # Install openjdk 11
 RUN set -ex; \
-  downloadUrl='https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_linux_11.0.14.1_1.tar.gz';
+  downloadUrl='https://github.com/AdoptOpenJDK/openjdk11-upstream-binaries/releases/download/jdk-11.0.14.1%2B1/OpenJDK11U-jdk_x64_linux_11.0.14.1_1.tar.gz'; \
   wget --progress=dot:giga -O openjdk.tgz "$downloadUrl"; \
   mkdir -p "$JAVA_HOME"; \
   tar --extract \
