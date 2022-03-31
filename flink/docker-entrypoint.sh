@@ -25,6 +25,13 @@ COMMAND_HISTORY_SERVER="history-server"
 JOB_MANAGER_RPC_ADDRESS=${JOB_MANAGER_RPC_ADDRESS:-$(hostname -f)}
 CONF_FILE="${FLINK_HOME}/conf/flink-conf.yaml"
 
+export USER_ID=$(id -u)
+export GROUP_ID=$(id -g)
+envsubst < /opt/flink/passwd.template > /tmp/passwd
+export LD_PRELOAD=/usr/lib64/libnss_wrapper.so
+export NSS_WRAPPER_PASSWD=/tmp/passwd
+export NSS_WRAPPER_GROUP=/etc/group
+
 drop_privs_cmd() {
     if [ $(id -u) != 0 ]; then
         # Don't need to drop privs if EUID != 0
@@ -99,13 +106,6 @@ maybe_enable_jemalloc
 copy_plugins_if_required
 
 prepare_configuration
-
-export USER_ID=$(id -u)
-export GROUP_ID=$(id -g)
-envsubst < /opt/flink/passwd.template > /tmp/passwd
-export LD_PRELOAD=/usr/lib64/libnss_wrapper.so
-export NSS_WRAPPER_PASSWD=/tmp/passwd
-export NSS_WRAPPER_GROUP=/etc/group
 
 args=("$@")
 if [ "$1" = "help" ]; then
