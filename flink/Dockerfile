@@ -56,8 +56,8 @@ ENV FLINK_TGZ_URL=https://www.apache.org/dyn/closer.cgi?action=download&filename
 # Prepare environment
 ENV FLINK_HOME=/opt/flink
 ENV PATH=$FLINK_HOME/bin:$PATH
-RUN groupadd --gid=9999 flink && \
-    useradd -m --home-dir $FLINK_HOME --uid=9999 --gid=flink flink
+RUN groupadd --system --gid=9999 flink && \
+    useradd --system -m --home-dir $FLINK_HOME --uid=9999 --gid=flink flink
 WORKDIR $FLINK_HOME
 
 # nss wrapper
