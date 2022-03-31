@@ -5,6 +5,8 @@ RUN set -eux; \
         yum install -y epel-release; \
         yum install -y \
             openssh \
+            openssh-clients \
+            openssh-server \
             wget \
             bzip2 \
             unzip \
