@@ -36,14 +36,6 @@ RUN set -ex; \
   ; \
   rm openjdk.tgz*; \
   \
-  { \
-    echo '#!/usr/bin/env bash'; \
-    echo 'set -Eeuo pipefail'; \
-    echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"'; \
-  } > /etc/ca-certificates/update.d/docker-openjdk; \
-  chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
-  /etc/ca-certificates/update.d/docker-openjdk; \
-  \
   find "$JAVA_HOME/lib" -name '*.so' -exec dirname '{}' ';' | sort -u > /etc/ld.so.conf.d/docker-openjdk.conf; \
   ldconfig; \
   \
