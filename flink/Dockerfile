@@ -36,11 +36,11 @@ RUN set -ex; \
   ; \
   rm openjdk.tgz*; \
   \
-  { \
-        echo '#!/usr/bin/env bash'; \
-        echo 'set -Eeuo pipefail'; \
-        echo 'trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"'; \
-  } > /etc/ca-certificates/update.d/docker-openjdk; \
+  cat > /etc/ca-certificates/update.d/docker-openjdk <<'EOF'
+  #!/usr/bin/env bash
+  set -Eeuo pipefail
+  trust extract --overwrite --format=java-cacerts --filter=ca-anchors --purpose=server-auth "$JAVA_HOME/lib/security/cacerts"
+  EOF; \
   chmod +x /etc/ca-certificates/update.d/docker-openjdk; \
   /etc/ca-certificates/update.d/docker-openjdk; \
   \
