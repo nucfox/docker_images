@@ -82,7 +82,8 @@ RUN set -ex; \
   mv /opt/nexmark-flink /opt/nexmark; \
   cp -r /opt/nexmark/lib/* $FLINK_HOME/lib; \
   chown -R flink:flink /opt/*; \
-  echo "qwer1234" | passwd --stdin root
+  echo "qwer1234" | passwd --stdin root; \
+  systemctl enable sshd
   
 
 # Configure container
