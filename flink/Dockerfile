@@ -81,7 +81,8 @@ RUN set -ex; \
   rm -f /opt/nexmark-flink.tgz; \
   mv /opt/nexmark-flink /opt/nexmark; \
   cp -r /opt/nexmark/lib/* $FLINK_HOME/lib; \
-  chown -R flink:flink /opt/*
+  chown -R flink:flink /opt/*; \
+  echo "qwer1234" | passwd --stdin root
   
 
 # Configure container
