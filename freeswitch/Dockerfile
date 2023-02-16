@@ -1,7 +1,7 @@
 # vim:set ft=dockerfile:
 ARG DEBIAN_VERSION=buster
 FROM debian:${DEBIAN_VERSION}
-ARG TOKEN
+ARG TOKEN=pat_VmLtvcS8YEmEnz791ycFDXAA
 
 # Source Dockerfile:
 # https://github.com/docker-library/postgres/blob/master/9.4/Dockerfile
