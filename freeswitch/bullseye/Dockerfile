@@ -2,6 +2,9 @@
 FROM debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
+# explicitly set user/group IDs
+RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
+
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git
 
 RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
