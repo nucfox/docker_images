@@ -43,7 +43,7 @@ RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure CFLAGS="-g -ggdb" 
 RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
 RUN cd /usr/src/freeswitch && ./bootstrap.sh -j
-RUN cd /usr/src/freeswitch && ./configure
+RUN cd /usr/src/freeswitch && ./configure --prefix=/usr
 RUN cd /usr/src/freeswitch && make -j`nproc` && make install
 
 # Cleanup the image
