@@ -15,7 +15,7 @@ RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwir
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential wget cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+    build-essential wget dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
     libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
