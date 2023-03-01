@@ -36,7 +36,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
     libpq-dev \
 # mod_sndfile
     libsndfile1-dev libflac-dev libogg-dev libvorbis-dev
-  
+RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
+    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
+    && gpg --verify /usr/local/bin/gosu.asc \
+    && rm /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu \  
 RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure CFLAGS="-g -ggdb" --with-pic --with-glib=no --without-doxygen --disable-stun --prefix=/usr && make -j`nproc --all` && make install
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure CFLAGS="-g -ggdb" --with-pic --prefix=/usr && make -j`nproc --all` && make install
@@ -45,6 +49,7 @@ RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . 
 RUN cd /usr/src/freeswitch && ./bootstrap.sh -j
 RUN cd /usr/src/freeswitch && ./configure --prefix=/usr
 RUN cd /usr/src/freeswitch && make -j`nproc` && make install
+RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
 # Cleanup the image
 RUN apt-get clean
@@ -70,7 +75,7 @@ EXPOSE 16384-32768/udp
 
 # Volumes
 ## Freeswitch Configuration
-VOLUME ["/etc/freeswitch"]
+VOLUME ["/usr/local/freeswitch/conf"]
 ## Tmp so we can get core dumps out
 VOLUME ["/tmp"]
 
