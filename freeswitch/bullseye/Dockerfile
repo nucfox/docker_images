@@ -15,7 +15,7 @@ RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwir
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+    build-essential wget cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
     libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
@@ -40,7 +40,7 @@ RUN wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/downloa
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
     && gpg --verify /usr/local/bin/gosu.asc \
     && rm /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu \  
+    && chmod +x /usr/local/bin/gosu
 RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure CFLAGS="-g -ggdb" --with-pic --with-glib=no --without-doxygen --disable-stun --prefix=/usr && make -j`nproc --all` && make install
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure CFLAGS="-g -ggdb" --with-pic --prefix=/usr && make -j`nproc --all` && make install
