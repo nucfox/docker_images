@@ -62,23 +62,23 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
-RUN cd /usr/src/freeswitch && ./bootstrap.sh -j
-    && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf
-    && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf
-    && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf
-    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf
-    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf
-    && ./configure --enable-core-odbc-support
-    && make -j`nproc` && make install
-    && make mod_portaudio
-    && make mod_portaudio-install
-    && make cd-sounds-install
-    && make cd-moh-install
-    && make uhd-sounds-install
-    && make uhd-moh-install
-    && make hd-sounds-install
-    && make hd-moh-install
-    && make sounds-install
+RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
+    && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
+    && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
+    && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
+    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
+    && ./configure --enable-core-odbc-support \
+    && make -j`nproc` && make install \
+    && make mod_portaudio \
+    && make mod_portaudio-install \
+    && make cd-sounds-install \
+    && make cd-moh-install \
+    && make uhd-sounds-install \
+    && make uhd-moh-install \
+    && make hd-sounds-install \
+    && make hd-moh-install \
+    && make sounds-install \
     && make moh-install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
