@@ -15,7 +15,7 @@ RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential wget dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+    build-essential lsb-release wget dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
     libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
@@ -45,7 +45,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 
 # MySQL ODBC driver
 RUN wget https://repo.mysql.com/mysql-apt-config_0.8.24-1_all.deb -O mysql-apt-config.deb \
-    && export DEBIAN_FRONTEND=noninteractive && dpkg -i mysql-apt-config.deb \
+    && export DEBIAN_FRONTEND=noninteractive && dpkg --install mysql-apt-config.deb \
     && rm -f mysql-apt-config.deb \
     && apt-get update \
     && apt-get -yq install mysql-connector-odbc
