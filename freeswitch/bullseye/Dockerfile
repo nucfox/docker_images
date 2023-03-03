@@ -1,5 +1,5 @@
 #
-FROM debian:bullseye
+FROM docker.mirrors.ustc.edu.cn/docker.io/library//debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
 # explicitly set user/group IDs
