@@ -45,13 +45,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 
 # MySQL ODBC driver
 RUN wget https://repo.mysql.com/mysql-apt-config_0.8.24-1_all.deb -O mysql-apt-config.deb \
-    export DEBIAN_FRONTEND=noninteractive && dpkg -i mysql-apt-config.deb \
-    rm -f mysql-apt-config.deb \
-    apt-get update \
-    apt-get -yq install mysql-connector-odbc
+    && export DEBIAN_FRONTEND=noninteractive && dpkg -i mysql-apt-config.deb \
+    && rm -f mysql-apt-config.deb \
+    && apt-get update \
+    && apt-get -yq install mysql-connector-odbc
 
 RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
+    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
     && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
     && gpg --verify /usr/local/bin/gosu.asc \
     && rm /usr/local/bin/gosu.asc \
