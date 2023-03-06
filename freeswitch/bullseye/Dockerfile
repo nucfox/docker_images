@@ -95,7 +95,7 @@ RUN cd /usr/src \
     && ./configure --prefix=/usr/local/apr \
     && make && make install \
     && cd ../apr-util \
-    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr
+    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
     && make && make install
 
 RUN cd /usr/src \
