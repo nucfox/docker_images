@@ -81,7 +81,7 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && make sounds-install \
     && make moh-install
 
-RUN chown -R freeswitch:freeswitch /usr/local/freeswitch && echo "export PATH=\$PATH:/usr/local/freeswitch/bin" >> /etc/profile
+RUN chown -R freeswitch:freeswitch /usr/local/freeswitch && echo "export PATH=\$PATH:/usr/local/freeswitch/bin" >> /etc/profile && source /etc/profile
 
 # Cleanup the image
 RUN apt-get clean
