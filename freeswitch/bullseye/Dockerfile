@@ -29,7 +29,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_av
     libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
-    liblua5.2-dev \
+    lua5.2 liblua5.2-dev \
 # luasocket
     lua-socket \
 # lua-iconv
@@ -86,6 +86,32 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && make hd-moh-install \
     && make sounds-install \
     && make moh-install
+
+RUN cd /usr/src \
+    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
+    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
+    && cd unimrcp-deps-1.6.0 \
+    && cd libs/apr \
+    && ./configure --prefix=/usr/local/apr \
+    && make && make install \
+    && cd ../apr-util \
+    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr
+    && make && make install
+
+RUN cd /usr/src \
+    && git clone https://github.com/unispeech/unimrcp.git \
+    && cd unimrcp \
+    && ./bootstrap \
+    && ./configure --with-sofia-sip=/usr \
+    && make && make install
+
+RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
+
+RUN cd /usr/src \
+    && git clone https://github.com/freeswitch/mod_unimrcp.git \
+    && cd mod_unimrcp \
+    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig \
+    && ./bootstrap.sh && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
