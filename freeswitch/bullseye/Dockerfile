@@ -85,7 +85,8 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && make hd-sounds-install \
     && make hd-moh-install \
     && make sounds-install \
-    && make moh-install
+    && make moh-install \
+    && cp -r conf/vanilla /usr/local/freeswitch/conf/
 
 # unimrcp-deps
 RUN cd /usr/src \
