@@ -68,7 +68,7 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
-    && ./configure --enable-core-odbc-support \
+    && ./configure --bindir=/usr --enable-core-odbc-support \
     && make -j`nproc` && make install \
     && make mod_portaudio \
     && make mod_portaudio-install \
@@ -81,7 +81,7 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && make sounds-install \
     && make moh-install
 
-RUN chown -R freeswitch:freeswitch /usr/local/freeswitch && echo "export PATH=\$PATH:/usr/local/freeswitch/bin" >> /etc/profile && source /etc/profile
+RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
 # Cleanup the image
 RUN apt-get clean
