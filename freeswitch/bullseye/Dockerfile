@@ -87,6 +87,7 @@ RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
     && make sounds-install \
     && make moh-install
 
+# unimrcp-deps
 RUN cd /usr/src \
     && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
     && tar xvzf unimrcp-deps-1.6.0.tar.gz \
@@ -98,6 +99,7 @@ RUN cd /usr/src \
     && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
     && make && make install
 
+# unimrcp
 RUN cd /usr/src \
     && git clone https://github.com/unispeech/unimrcp.git \
     && cd unimrcp \
@@ -107,6 +109,7 @@ RUN cd /usr/src \
 
 RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
 
+# mod_unimrcp
 RUN cd /usr/src \
     && git clone https://github.com/freeswitch/mod_unimrcp.git \
     && cd mod_unimrcp \
