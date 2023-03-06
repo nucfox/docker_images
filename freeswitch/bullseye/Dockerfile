@@ -30,6 +30,12 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
     libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
     liblua5.2-dev \
+# luasocket
+    lua-socket \
+# lua-iconv
+    lua-iconv \
+# lua-bitop
+    lua-bitop liblua5.1-bitop \
 # mod_opus
     libopus-dev \
 # mod_pgsql
