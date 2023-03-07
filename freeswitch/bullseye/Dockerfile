@@ -41,7 +41,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_pgsql
     flite1-dev libpq-dev \
 # mod_portaudio
-    portaudio19-dev \
+    alsa-utils portaudio19-dev \
 # mod_flite
     libflite1 \
 # mod_sndfile
