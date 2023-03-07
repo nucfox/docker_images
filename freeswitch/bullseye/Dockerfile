@@ -11,7 +11,6 @@ RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
 RUN git clone https://github.com/signalwire/libks /usr/src/libs/libks
 RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
 RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
-RUN git clone https://github.com/festvox/flite.git /usr/src/libs/flite
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
@@ -43,6 +42,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
     libpq-dev \
 # mod_portaudio
     portaudio19-dev \
+# mod_flite
+    libflite1 \
 # mod_sndfile
     libsndfile1-dev libflac-dev libogg-dev libvorbis-dev \
 # Basic ODBC tools and ODBC libraries for UNIX
@@ -67,7 +68,6 @@ RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E36
 RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
-RUN cd /usr/src/libs/flite && ./configure --enable-shared && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
 RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
