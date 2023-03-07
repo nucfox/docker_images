@@ -39,7 +39,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_opus
     libopus-dev \
 # mod_pgsql
-    libpq-dev \
+    flite1-dev libpq-dev \
 # mod_portaudio
     portaudio19-dev \
 # mod_flite
