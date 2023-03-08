@@ -3,7 +3,7 @@ FROM hub-mirror.c.163.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
 # explicitly set user/group IDs
-RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
+RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch && usermod -a -G audio freeswitch
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git
 
