@@ -7,7 +7,7 @@ ARG FREESWITCH_VERSION=1.10.9
 # explicitly set user/group IDs
 RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
@@ -18,7 +18,7 @@ RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+    build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
     libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
