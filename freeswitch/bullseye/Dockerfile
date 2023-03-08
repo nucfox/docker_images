@@ -2,12 +2,15 @@
 FROM hub-mirror.c.163.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
+ARG FREESWITCH_VERSION=1.10.9
+
 # explicitly set user/group IDs
 RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git
 
-RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
+RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
+#RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
 RUN git clone https://github.com/signalwire/libks /usr/src/libs/libks
 RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
 RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
@@ -70,7 +73,7 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
-RUN cd /usr/src/freeswitch && ./bootstrap.sh -j \
+RUN cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
