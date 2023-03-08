@@ -15,7 +15,7 @@ RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential lsb-release wget sngrep dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+    build-essential lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
     libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
