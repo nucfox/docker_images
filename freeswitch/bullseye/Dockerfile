@@ -42,11 +42,11 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_opus
     libopus-dev \
 # mod_pgsql
-    flite1-dev libpq-dev \
+    libpq-dev \
 # mod_portaudio
     alsa-utils portaudio19-dev \
 # mod_flite
-    libflite1 \
+    libflite1 flite1-dev \
 # mod_sndfile
     libsndfile1-dev libflac-dev libogg-dev libvorbis-dev \
 # Basic ODBC tools and ODBC libraries for UNIX
