@@ -81,7 +81,7 @@ RUN cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
-    && sed -i "/^#event_handlers/mod_cdr_pg_csv$/s/^#//" modules.conf \
+    && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
     && make -j`nproc` && make install \
     && make mod_portaudio \
