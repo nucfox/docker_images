@@ -110,7 +110,8 @@ RUN cd /usr/src \
 # unimrcp
 RUN cd /usr/src \
     #&& git clone https://github.com/unispeech/unimrcp.git \
-    && git clone -b unimrcp-1.6.1 https://github.com/peter158/unimrcp-1.6.git \
+    #&& git clone -b unimrcp-1.6.1 https://github.com/peter158/unimrcp-1.6.git \
+    && git clone -b unimrcp-1.6.1 https://github.com/zhouhailin/unimrcp-1.6.git \
     #&& cd unimrcp \
     && cd unimrcp-1.6 \
     && ./bootstrap \
