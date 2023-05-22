@@ -109,8 +109,10 @@ RUN cd /usr/src \
 
 # unimrcp
 RUN cd /usr/src \
-    && git clone https://github.com/unispeech/unimrcp.git \
-    && cd unimrcp \
+    #&& git clone https://github.com/unispeech/unimrcp.git \
+    && git clone -b unimrcp-1.6.1 https://github.com/peter158/unimrcp-1.6.git \
+    #&& cd unimrcp \
+    && cd unimrcp-1.6 \
     && ./bootstrap \
     && ./configure --with-sofia-sip=/usr \
     && make && make install
@@ -119,11 +121,10 @@ RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkg
 
 # mod_unimrcp
 RUN cd /usr/src \
-   # && git clone https://github.com/freeswitch/mod_unimrcp.git \
-    && git clone -b unimrcp-1.6.1 https://github.com/peter158/unimrcp-1.6.git \
-    && cd unimrcp-1.6 \
+    && git clone https://github.com/freeswitch/mod_unimrcp.git \
+    && cd mod_unimrcp \
     && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig \
-    && ./bootstrap && ./configure && make && make install
+    && ./bootstrap.sh && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
