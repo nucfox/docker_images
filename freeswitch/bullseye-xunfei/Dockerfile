@@ -123,7 +123,7 @@ RUN cd /usr/src \
     && git clone -b unimrcp-1.6.1 https://github.com/peter158/unimrcp-1.6.git \
     && cd unimrcp-1.6 \
     && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig \
-    && ./bootstrap.sh && ./configure && make && make install
+    && ./bootstrap && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
