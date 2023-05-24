@@ -168,5 +168,6 @@ HEALTHCHECK --interval=15s --timeout=5s \
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
+WORKDIR /usr/local/freeswitch
 
 CMD ["freeswitch"]
