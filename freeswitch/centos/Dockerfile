@@ -153,7 +153,7 @@ VOLUME ["/usr/local/freeswitch/conf"]
 VOLUME ["/tmp"]
 
 # Limits Configuration
-COPY    build/freeswitch.limits.conf /etc/security/limits.d/
+#COPY    build/freeswitch.limits.conf /etc/security/limits.d/
 
 # Healthcheck to make sure the service is running
 SHELL       ["/bin/bash"]
