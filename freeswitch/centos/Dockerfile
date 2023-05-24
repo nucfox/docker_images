@@ -32,7 +32,7 @@ RUN yum -y install \
 # general
     ncurses-devel libpcap-devel pcre-devel openssl-devel openssl-libs openssl zlib-devel libdb-devel bison libtiff-devel uuid-devel \
 # core
-    pcre-devel pcre2-devel libedit-devel sqlite-devel libcurl-devel nasm uuid libuuid-devel libuuid \
+    pcre-devel pcre2-devel libedit-devel sqlite-devel libcurl-devel nasm uuid libuuid-devel libuuid guile-devel\
 # core codecs
     libogg-devel speex-devel \
 # mod_enum
