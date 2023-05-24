@@ -12,8 +12,8 @@ RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.ir
 
 RUN rpm --import public.gpg.key && yum -y update && yum -y install git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep epel-release
 
-RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro && \
-    rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
+    && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
