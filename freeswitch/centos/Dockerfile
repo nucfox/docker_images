@@ -76,8 +76,8 @@ RUN cd /usr/src \
     && cd cmake-3.26.4 \
     && ./bootstrap \
     && gmake \
-    && make install \
-    && cd ../ && rm -rf cmake-3.26.4
+    && make install
+    #&& cd ../ && rm -rf cmake-3.26.4
 
 RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
