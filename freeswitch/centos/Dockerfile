@@ -16,7 +16,7 @@ RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
     && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm \
     && rpm --import http://packages.irontec.com/public.key
 
-RUN yum -y update && yum -y install gcc git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep
+RUN yum -y update && yum -y install gcc gcc-c++ git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep
 
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
