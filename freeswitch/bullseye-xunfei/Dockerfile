@@ -100,12 +100,13 @@ RUN cd /usr/src \
     && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
     && tar xvzf unimrcp-deps-1.6.0.tar.gz \
     && cd unimrcp-deps-1.6.0 \
-    && cd libs/apr \
-    && ./configure --prefix=/usr/local/apr \
-    && make && make install \
-    && cd ../apr-util \
-    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
-    && make && make install
+    && sh -c '/bin/echo -e "\ny\n\ny" | sh build-dep-libs.sh'
+    #&& cd libs/apr \
+    #&& ./configure --prefix=/usr/local/apr \
+    #&& make && make install \
+    #&& cd ../apr-util \
+    #&& ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
+    #&& make && make install
 
 # unimrcp
 RUN cd /usr/src \
