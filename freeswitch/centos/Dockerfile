@@ -10,7 +10,7 @@ RUN groupadd -r freeswitch --gid=1999 && useradd -r -g freeswitch --uid=1999 fre
 
 RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.irontec.com/centos/\$releasever/\$basearch/" > /etc/yum.repos.d/irontec.repo
 
-RUN rpm --import public.gpg.key && yum -y update && yum -y install git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep epel-release
+RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && yum -y update && yum -y install git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep epel-release
 
 RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
     && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
