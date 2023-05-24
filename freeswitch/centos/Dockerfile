@@ -13,7 +13,8 @@ RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.ir
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && yum -y install epel-release
 
 RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
-    && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+    && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm \
+    && rpm --import http://packages.irontec.com/public.key
 
 RUN yum -y update && yum -y install git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep
 
