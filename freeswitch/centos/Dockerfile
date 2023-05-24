@@ -6,7 +6,7 @@ MAINTAINER Andrey Volk <andrey@signalwire.com>
 ARG FREESWITCH_VERSION=1.10.9
 
 # explicitly set user/group IDs
-RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
+RUN groupadd -r freeswitch --gid=1999 && useradd -r -g freeswitch --uid=1999 freeswitch
 
 RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.irontec.com/centos/\$releasever/\$basearch/" > /etc/yum.repos.d/irontec.repo
 
