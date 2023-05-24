@@ -1,5 +1,5 @@
 #
-FROM hub-mirror.c.163.com/library/centos:7
+FROM centos:7
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
 ARG FREESWITCH_VERSION=1.10.9
