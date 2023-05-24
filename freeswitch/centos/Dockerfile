@@ -28,7 +28,7 @@ RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 
 RUN yum -y install \
 # build
-    automake autoconf cmake libtool pkgconfig \
+    automake autoconf libtool pkgconfig \
 # general
     ncurses-devel libpcap-devel pcre-devel openssl-devel openssl-libs openssl zlib-devel libdb-devel bison libtiff-devel uuid-devel \
 # core
@@ -69,6 +69,15 @@ RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E3
     #&& gpg --verify /usr/local/bin/gosu.asc \
     #&& rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu
+
+RUN cd /usr/src \
+    && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4.tar.gz \
+    && tar zxf cmake-3.26.4.tar.gz && rm -f cmake-3.26.4.tar.gz \
+    && cd cmake-3.26.4 \
+    && ./bootstrap \
+    && gmake \
+    && make install \
+    && cd ../ && rm -rf cmake-3.26.4
 
 RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
