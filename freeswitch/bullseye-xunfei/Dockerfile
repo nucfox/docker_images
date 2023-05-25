@@ -79,8 +79,9 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+    && sed -i "s/^applications\/mod_conference/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
-    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
+    #&& sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \

@@ -3,7 +3,7 @@
 FROM 05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com/library/centos:7
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
-ARG FREESWITCH_VERSION=1.10.9
+ARG FREESWITCH_VERSION=1.10.6
 
 # explicitly set user/group IDs
 RUN groupadd -r freeswitch --gid=1999 && useradd -r -g freeswitch --uid=1999 freeswitch
