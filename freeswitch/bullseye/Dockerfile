@@ -76,6 +76,7 @@ RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && m
 RUN cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
+    && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
