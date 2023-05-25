@@ -29,7 +29,7 @@ RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 
 RUN yum -y install \
 # build
-    automake autoconf libtool pkgconfig \
+    automake autoconf libtool which pkgconfig \
 # general
     ncurses-devel libpcap-devel pcre-devel openssl-devel openssl-libs openssl zlib-devel libdb-devel bison libjpeg-devel libtiff libtiff-devel uuid-devel \
 # core
