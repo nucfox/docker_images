@@ -93,6 +93,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
     && sed -i "s/^applications\/mod_av/#&/g" modules.conf \
     && sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
+    && sed -i "s/^codecs\/mod_opus/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     #&& sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     #&& sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
