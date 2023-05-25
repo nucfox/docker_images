@@ -71,17 +71,17 @@ RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E3
     #&& rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu
 
-#RUN cd /usr/src \
-#    && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4.tar.gz \
-#    && tar zxf cmake-3.26.4.tar.gz && rm -f cmake-3.26.4.tar.gz \
-#    && cd cmake-3.26.4 \
-#    && ./bootstrap \
-#    && gmake \
-#    && make install \
-#    && cd ../ && rm -rf cmake-3.26.4
-#
-#RUN cd /usr/src/libs/libbacktrace && ./configure && make && make install
-#RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
+RUN cd /usr/src \
+    && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4.tar.gz \
+    && tar zxf cmake-3.26.4.tar.gz && rm -f cmake-3.26.4.tar.gz \
+    && cd cmake-3.26.4 \
+    && ./bootstrap \
+    && gmake \
+    && make install \
+    && cd ../ && rm -rf cmake-3.26.4
+
+RUN cd /usr/src/libs/libbacktrace && ./configure && make && make install
+RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
@@ -91,16 +91,18 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+    && sed -i "s/^applications\/mod_av/#&/g" modules.conf \
     && sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
+    && sed -i "s/^endpoints\/mod_portaudio/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
-    && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
+    #&& sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
     && make -j`nproc` && make install \
-    && make mod_portaudio \
-    && make mod_portaudio-install \
+    #&& make mod_portaudio \
+    #&& make mod_portaudio-install \
     && make cd-sounds-install \
     && make cd-moh-install \
     && make uhd-sounds-install \
