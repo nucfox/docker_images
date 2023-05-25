@@ -21,6 +21,7 @@ RUN yum -y update && yum -y install gcc gcc-c++ git redhat-lsb-core wget iproute
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
+RUN git clone https://github.com/ianlancetaylor/libbacktrace /usr/src/libs/libbacktrace
 RUN git clone https://github.com/signalwire/libks /usr/src/libs/libks
 RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
 RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
@@ -32,7 +33,7 @@ RUN yum -y install \
 # general
     ncurses-devel libpcap-devel pcre-devel openssl-devel openssl-libs openssl zlib-devel libdb-devel bison libjpeg-devel libtiff libtiff-devel uuid-devel \
 # core
-    pcre-devel pcre2-devel libedit-devel sqlite-devel libcurl-devel nasm uuid libuuid-devel libuuid \
+    pcre-devel pcre2-devel libedit-devel sqlite-devel libcurl-devel nasm uuid libuuid-devel libuuid libatomic \
 # core codecs
     libogg-devel speex-devel \
 # mod_enum
@@ -78,7 +79,8 @@ RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E3
 #    && gmake \
 #    && make install \
 #    && cd ../ && rm -rf cmake-3.26.4
-
+#
+#RUN cd /usr/src/libs/libbacktrace && ./configure && make && make install
 #RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
 RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
