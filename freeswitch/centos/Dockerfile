@@ -58,7 +58,7 @@ RUN yum -y install \
 # mod_sndfile
     libsndfile-devel flac-devel libogg-devel libvorbis-devel \
 # Basic ODBC tools and ODBC libraries for UNIX
-    unixODBC unixodbc-devxODBC \
+    unixODBC unixODBC-devel \
 # ODBC driver for PostgreSQL
     postgresql-odbc \
 # ODBC driver for Mysql
