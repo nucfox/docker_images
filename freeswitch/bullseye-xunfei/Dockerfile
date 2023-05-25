@@ -2,7 +2,7 @@
 FROM hub-mirror.c.163.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
-ARG FREESWITCH_VERSION=1.10.9
+ARG FREESWITCH_VERSION=1.10.6
 
 # explicitly set user/group IDs
 RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
