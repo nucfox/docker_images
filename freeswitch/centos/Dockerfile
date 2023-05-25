@@ -39,7 +39,7 @@ RUN yum -y install \
 # mod_enum
     ldns-devel \
 # mod_python3
-    python3 \
+    #python3 \
 # mod_av
     ffmpeg ffmpeg-devel \
 # mod_lua
