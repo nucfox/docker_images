@@ -73,6 +73,28 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
+# unimrcp-deps
+#RUN cd /usr/src \
+#    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
+#    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
+#    && cd unimrcp-deps-1.6.0 \
+#    && sh -c '/bin/echo -e "\ny\n\ny" | sh build-dep-libs.sh'
+#    #&& cd libs/apr \
+#    #&& ./configure --prefix=/usr/local/apr \
+#    #&& make && make install \
+#    #&& cd ../apr-util \
+#    #&& ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
+#    #&& make && make install
+#
+## unimrcp
+#RUN cd /usr/src \
+#    && git clone https://github.com/unispeech/unimrcp.git \
+#    && cd unimrcp \
+#    && ./bootstrap \
+#    && ./configure --with-sofia-sip=/usr \
+#    && make && make install
+
+
 RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
@@ -88,6 +110,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make -j`nproc` && make install \
     && make mod_portaudio \
     && make mod_portaudio-install \
+    && make mod_unimrcp-install \
     && make cd-sounds-install \
     && make cd-moh-install \
     && make uhd-sounds-install \
@@ -97,35 +120,15 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make sounds-install \
     && make moh-install
 
-# unimrcp-deps
-RUN cd /usr/src \
-    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
-    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
-    && cd unimrcp-deps-1.6.0 \
-    && sh -c '/bin/echo -e "\ny\n\ny" | sh build-dep-libs.sh'
-    #&& cd libs/apr \
-    #&& ./configure --prefix=/usr/local/apr \
-    #&& make && make install \
-    #&& cd ../apr-util \
-    #&& ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
-    #&& make && make install
-
-# unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/unispeech/unimrcp.git \
-    && cd unimrcp \
-    && ./bootstrap \
-    && ./configure --with-sofia-sip=/usr \
-    && make && make install
 
 RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
 
 # mod_unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/freeswitch/mod_unimrcp.git \
-    && cd mod_unimrcp \
-    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
-    && ./bootstrap.sh && ./configure && make && make install
+#RUN cd /usr/src \
+#    && git clone https://github.com/freeswitch/mod_unimrcp.git \
+#    && cd mod_unimrcp \
+#    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
+#    && ./bootstrap.sh && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
