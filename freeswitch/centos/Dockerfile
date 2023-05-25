@@ -86,7 +86,7 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
-RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH
+RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \

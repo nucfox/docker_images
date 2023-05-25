@@ -73,7 +73,8 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
-RUN cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
+RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
+    && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
@@ -123,7 +124,7 @@ RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkg
 RUN cd /usr/src \
     && git clone https://github.com/freeswitch/mod_unimrcp.git \
     && cd mod_unimrcp \
-    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig \
+    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && ./bootstrap.sh && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
