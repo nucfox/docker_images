@@ -108,6 +108,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "/^#asr_tts\/mod_unimrcp/s/^#//" modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
+    && sed -i "s/strncpy(params->firmware_version, val, 16);/strncpy(params->firmware_version, val, 16-1);/g" src/mod/endpoints/mod_skinny/mod_skinny.c
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
     && make -j`nproc` && make install \
     && make mod_portaudio \
