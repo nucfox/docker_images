@@ -105,6 +105,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
+    && sed -i "/^#asr_tts\/mod_unimrcp/s/^#//" modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
@@ -122,7 +123,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make moh-install
 
 
-RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
+#RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
 
 # mod_unimrcp
 #RUN cd /usr/src \
