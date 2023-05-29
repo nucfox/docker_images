@@ -95,6 +95,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
     && sed -i "s/^codecs\/mod_opus/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
+    && sed -i "/^#asr_tts\/mod_unimrcp/s/^#//" modules.conf \
     #&& sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     #&& sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     #&& sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
@@ -113,11 +114,11 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make moh-install
 
 # unimrcp-deps
-RUN cd /usr/src \
-    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
-    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
-    && cd unimrcp-deps-1.6.0 \
-    && sh -c '/bin/echo -e "\ny\n\ny" | sh build-dep-libs.sh'
+#RUN cd /usr/src \
+#    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
+#    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
+#    && cd unimrcp-deps-1.6.0 \
+#    && sh -c '/bin/echo -e "\ny\n\ny" | sh build-dep-libs.sh'
     #&& cd libs/apr \
     #&& ./configure --prefix=/usr/local/apr \
     #&& make && make install \
@@ -126,21 +127,21 @@ RUN cd /usr/src \
     #&& make && make install
 
 # unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/unispeech/unimrcp.git \
-    && cd unimrcp \
-    && ./bootstrap \
-    && ./configure --with-sofia-sip=/usr \
-    && make && make install
+#RUN cd /usr/src \
+#    && git clone https://github.com/unispeech/unimrcp.git \
+#    && cd unimrcp \
+#    && ./bootstrap \
+#    && ./configure --with-sofia-sip=/usr \
+#    && make && make install
 
-RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
+#RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
 
 # mod_unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/freeswitch/mod_unimrcp.git \
-    && cd mod_unimrcp \
-    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
-    && ./bootstrap.sh && ./configure && make && make install
+#RUN cd /usr/src \
+#    && git clone https://github.com/freeswitch/mod_unimrcp.git \
+#    && cd mod_unimrcp \
+#    && export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
+#    && ./bootstrap.sh && ./configure && make && make install
 
 RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 
