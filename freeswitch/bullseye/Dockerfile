@@ -16,6 +16,10 @@ RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
 RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
 
+# min
+# ./configure --bindir=/usr/bin --disable-libvpx
+# zlib1g-dev libjpeg-dev libpng-dev libsqlite3-dev libcurl4-openssl-dev libpcre3-dev libspeex-dev libspeexdsp-dev libedit-dev
+
 RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
     sudo build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \

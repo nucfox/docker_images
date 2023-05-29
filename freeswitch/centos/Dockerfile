@@ -65,11 +65,11 @@ RUN yum -y install \
     mysql-connector-odbc
 
 RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
+    wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
     #&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
     #&& gpg --verify /usr/local/bin/gosu.asc \
     #&& rm /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu
+    && chmod +x /usr/bin/gosu
 
 RUN cd /usr/src \
     && wget https://github.com/Kitware/CMake/releases/download/v3.26.4/cmake-3.26.4.tar.gz \
@@ -112,6 +112,9 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make hd-moh-install \
     && make sounds-install \
     && make moh-install
+
+RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib" >> /etc/bashrc
+RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bashrc
 
 # unimrcp-deps
 #RUN cd /usr/src \
