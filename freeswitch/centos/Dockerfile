@@ -121,16 +121,16 @@ RUN echo "export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/lib/pk
 
 
 # luasocket
-RUN cd /usr/src/luasocket-$LUASOCKET_VERSION \
-    && make && make install
+#RUN cd /usr/src/luasocket-$LUASOCKET_VERSION \
+#    && make && make install
 
 # lua-iconv
 #RUN cd /usr/src/lua-iconv \
 #    && make && make install
 
 # lua-bitop
-RUN cd /usr/src/luabitop \
-    && make && make install
+#RUN cd /usr/src/luabitop \
+#    && make && make install
 
 # unimrcp-deps
 #RUN cd /usr/src \
