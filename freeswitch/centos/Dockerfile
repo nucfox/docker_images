@@ -13,8 +13,8 @@ RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.ir
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && yum -y install epel-release
 
-RUN yum -y update && yum -y install gcc gcc-c++ git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep
-
+RUN yum -y update && yum -y install gcc gcc-c++ git redhat-lsb-core wget iproute gnupg2 ca-certificates make
+RUN yum -y --nogpgcheck install sngrep
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
