@@ -102,8 +102,8 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/local/li
     #&& sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     #&& sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
-    && sed -i "s/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -pedantic -Wdeclaration-after-statement/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -Wdeclaration-after-statement/g" src/mod/applications/mod_av/Makefile \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
+    && sed -i "s/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -pedantic -Wdeclaration-after-statement/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -Wdeclaration-after-statement/g" src/mod/applications/mod_av/Makefile \
     && make -j`nproc` && make install \
     #&& make mod_portaudio \
     #&& make mod_portaudio-install \
