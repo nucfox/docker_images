@@ -93,7 +93,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/local/li
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
-    #&& sed -i "s/^applications\/mod_av/#&/g" modules.conf \
+    && sed -i "s/^applications\/mod_av/#&/g" modules.conf \
     #&& sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
     #&& sed -i "s/^codecs\/mod_opus/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
@@ -103,7 +103,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/local/li
     #&& sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
-    && sed -i "s/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -pedantic -Wdeclaration-after-statement/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -Wdeclaration-after-statement/g" src/mod/applications/mod_av/Makefile \
+    #&& sed -i "s/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -pedantic -Wdeclaration-after-statement/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -Wdeclaration-after-statement/g" src/mod/applications/mod_av/Makefile \
     && make -j`nproc` && make install \
     #&& make mod_portaudio \
     #&& make mod_portaudio-install \
