@@ -4,6 +4,7 @@ FROM 05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com/library/cento
 MAINTAINER Andrey Volk <andrey@signalwire.com>
 
 ARG FREESWITCH_VERSION=1.10.6
+ARG LUASOCKET_VERSION=3.1.0
 
 # explicitly set user/group IDs
 RUN groupadd -r freeswitch --gid=1999 && useradd -r -g freeswitch --uid=1999 freeswitch
@@ -12,19 +13,18 @@ RUN echo -e "[irontec]\nname=Irontec RPMs repository\nbaseurl=http://packages.ir
 
 RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7 && yum -y install epel-release
 
-RUN rpm --import http://li.nux.ro/download/nux/RPM-GPG-KEY-nux.ro \
-    && rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm \
-    && rpm --import http://packages.irontec.com/public.key
-
 RUN yum -y update && yum -y install gcc gcc-c++ git redhat-lsb-core wget iproute gnupg2 ca-certificates make sngrep
 
 
 RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
-RUN git clone https://github.com/ianlancetaylor/libbacktrace /usr/src/libs/libbacktrace
-RUN git clone https://github.com/signalwire/libks /usr/src/libs/libks
-RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
-RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
+RUN git clone https://github.com/ianlancetaylor/libbacktrace /usr/src/libbacktrace
+RUN git clone https://github.com/signalwire/libks /usr/src/libks
+RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/sofia-sip
+RUN git clone https://github.com/freeswitch/spandsp /usr/src/spandsp
+RUN wget https://github.com/lunarmodules/luasocket/archive/refs/tags/v$LUASOCKET_VERSION.tar.gz -P /usr/src/libs/ && tar zxf /usr/src/libs/v$LUASOCKET_VERSION.tar.gz -C /usr/src
+RUN git clone https://github.com/ittner/lua-iconv.git /usr/src/lua-iconv
+RUN git clone https://github.com/LuaDist/luabitop.git /usr/src/luabitop
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
 
 RUN yum -y install \
@@ -40,29 +40,29 @@ RUN yum -y install \
     ldns-devel \
 # mod_python3
     #python3 \
-# mod_av
-    ffmpeg ffmpeg-devel \
 # mod_lua
     lua lua-devel \
-# luasocket
-# lua-iconv
-# lua-bitop
-# mod_opus
-    opus-devel \
 # mod_pgsql
     postgresql-devel \
 # mod_portaudio
     alsa-utils portaudio \
 # mod_flite
-    flite flite-devel \
+#    flite flite-devel \
 # mod_sndfile
-    libsndfile-devel flac-devel libogg-devel libvorbis-devel \
+    libsndfile-devel libsndfile-utils libsndfile flac-devel libogg-devel libvorbis-devel \
 # Basic ODBC tools and ODBC libraries for UNIX
     unixODBC unixODBC-devel \
 # ODBC driver for PostgreSQL
     postgresql-odbc \
 # ODBC driver for Mysql
     mysql-connector-odbc
+
+RUN yum -y install http://repo.okay.com.mx/centos/7/x86_64/release/okay-release-1-1.noarch.rpm
+RUN yum -y --nogpgcheck install \
+# mod_av
+    ffmpeg-devel \
+# mod_opus
+    opus-devel
 
 RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
@@ -86,20 +86,23 @@ RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr &&
 RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
 
-RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
+RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
+    && ldconfig \
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
+    && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
-    && sed -i "s/^applications\/mod_av/#&/g" modules.conf \
-    && sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
-    && sed -i "s/^codecs\/mod_opus/#&/g" modules.conf \
+    #&& sed -i "s/^applications\/mod_av/#&/g" modules.conf \
+    #&& sed -i "s/^endpoints\/mod_verto/#&/g" modules.conf \
+    #&& sed -i "s/^codecs\/mod_opus/#&/g" modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
     && sed -i "/^#asr_tts\/mod_unimrcp/s/^#//" modules.conf \
     #&& sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
     #&& sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
     #&& sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
+    && sed -i "s/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -pedantic -Wdeclaration-after-statement/SWITCH_ANSI_CFLAGS =  -Wall -std=c99 -Wdeclaration-after-statement/g" src/mod/applications/mod_av/Makefile
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
     && make -j`nproc` && make install \
     #&& make mod_portaudio \
@@ -114,7 +117,20 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
     && make moh-install
 
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib" >> /etc/bashrc
-RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bashrc
+RUN echo "export PKG_CONFIG_PATH=/usr/local/freeswitch/lib/pkgconfig:/usr/lib/pkgconfig:/usr/lib64/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH" >> /etc/bashrc && ldconfig
+
+
+# luasocket
+RUN cd /usr/src/luasocket-$LUASOCKET_VERSION \
+    && make && make install
+
+# lua-iconv
+RUN cd /usr/src/lua-iconv \
+    && make && make install
+
+# lua-bitop
+RUN cd /usr/src/luabitop \
+    && make && make install
 
 # unimrcp-deps
 #RUN cd /usr/src \
