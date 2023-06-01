@@ -42,8 +42,6 @@ RUN yum -y install \
     #python3 \
 # mod_lua
     lua lua-devel \
-# mod_pgsql
-    postgresql-devel \
 # mod_portaudio
     alsa-utils portaudio \
 # mod_flite
@@ -52,8 +50,6 @@ RUN yum -y install \
     libsndfile-devel libsndfile-utils libsndfile flac-devel libogg-devel libvorbis-devel \
 # Basic ODBC tools and ODBC libraries for UNIX
     unixODBC unixODBC-devel \
-# ODBC driver for PostgreSQL
-    postgresql-odbc \
 # ODBC driver for Mysql
     mysql-connector-odbc
 
@@ -63,6 +59,19 @@ RUN yum -y --nogpgcheck install \
     ffmpeg-devel \
 # mod_opus
     opus-devel
+
+RUN rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-15 \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-14 \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-13 \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-12 \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-11 \
+    && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-10
+RUN yum -y install \
+# mod_pgsql
+    libpq5-devel libpq5
+# ODBC driver for PostgreSQL
+    postgresql15-odbc postgresql15-libs
 
 RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
@@ -132,6 +141,7 @@ RUN cd /usr/src/lua-iconv \
 RUN cd /usr/src/luabitop \
     && make && make install
 
+RUN cp -r /usr/local/share/lua/5.1/* /usr/lib64/lua/5.1/
 # unimrcp-deps
 #RUN cd /usr/src \
 #    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
