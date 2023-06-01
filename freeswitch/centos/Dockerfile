@@ -73,11 +73,14 @@ RUN yum -y install \
 # ODBC driver for PostgreSQL
     postgresql15-odbc postgresql15-libs
 
-RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
+#RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    #wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
     #&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
     #&& gpg --verify /usr/local/bin/gosu.asc \
     #&& rm /usr/local/bin/gosu.asc \
+    #&& chmod +x /usr/bin/gosu
+
+RUN wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
     && chmod +x /usr/bin/gosu
 
 RUN cd /usr/src \
