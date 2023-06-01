@@ -69,9 +69,9 @@ RUN rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/
     && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-10
 RUN yum -y install \
 # mod_pgsql
-    libpq5-devel libpq5 \
+    libpq5-devel-12* libpq5-12* \
 # ODBC driver for PostgreSQL
-    postgresql15-odbc postgresql15-libs
+    postgresql12-odbc postgresql12-libs
 
 #RUN #gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     #wget -O /usr/bin/gosu "https://github.com/tianon/gosu/releases/download/1.16/gosu-amd64" \
