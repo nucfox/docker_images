@@ -69,7 +69,7 @@ RUN rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/
     && rpm --import https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-10
 RUN yum -y install \
 # mod_pgsql
-    libpq5-devel libpq5
+    libpq5-devel libpq5 \
 # ODBC driver for PostgreSQL
     postgresql15-odbc postgresql15-libs
 
