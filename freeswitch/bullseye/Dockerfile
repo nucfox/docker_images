@@ -38,7 +38,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_lua
     lua5.2 liblua5.2-dev \
 # luasocket
-    lua-socket \
+#    lua-socket \
 # lua-iconv
     lua-iconv \
 # lua-bitop
