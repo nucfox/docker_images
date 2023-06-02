@@ -144,7 +144,7 @@ RUN cd /usr/src/lua-iconv \
 RUN cd /usr/src/luabitop \
     && make && make install
 
-RUN cp -r /usr/local/share/lua/5.1/* /usr/lib64/lua/5.1/
+RUN cp -r /usr/local/share/lua/5.1/* /usr/lib64/lua/5.1/ && cp -r /usr/local/lib/lua/5.1/* /usr/lib64/lua/5.1/
 # unimrcp-deps
 #RUN cd /usr/src \
 #    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
