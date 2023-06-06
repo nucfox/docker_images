@@ -80,22 +80,23 @@ RUN && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
     && sed -i "/^#applications\/mod_curl$/s/^#//"modules.conf \
     && sed -i "/^#applications\/mod_esl$/s/^#//"modules.conf \
+    && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
     && sed -i "s/^applications\/mod_signalwire/#&/g"modules.conf \
     && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//"modules.conf \
     && sed -i "/^#endpoints\/mod_portaudio$/s/^#//"modules.conf \
     && sed -i "/^#asr_tts\/mod_flite$/s/^#//"modules.conf \
     && sed -i "/^#languages\/mod_python3$/s/^#//"modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
-    && make -j`nproc` && make install\
+    && make -j`nproc` && make install \
     && make mod_portaudio \
-    && make mod_portaudio-install\
-    && make cd-sounds-install\
-    && make cd-moh-install\
-    && make uhd-sounds-install\
-    && make uhd-moh-install\
-    && make hd-sounds-install\
-    && make hd-moh-install\
-    && make sounds-install\
+    && make mod_portaudio-install \
+    && make cd-sounds-install \
+    && make cd-moh-install \
+    && make uhd-sounds-install \
+    && make uhd-moh-install \
+    && make hd-sounds-install \
+    && make hd-moh-install \
+    && make sounds-install \
     && make moh-install
  
 # unimrcp-deps
