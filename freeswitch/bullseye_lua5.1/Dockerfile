@@ -1,6 +1,6 @@
 #
-FROM hub-mirror.c.163.com/library/debian:bullseye
-#FROM 05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com/library/debian:bullseye
+#FROM hub-mirror.c.163.com/library/debian:bullseye
+FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
   
 ARG FREESWITCH_VERSION=1.10.9
