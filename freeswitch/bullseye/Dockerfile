@@ -37,7 +37,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_av
     libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
-    lua5.1 liblua5.1-dev \
+    lua5.2 liblua5.2-dev \
 # luasocket
     lua-socket \
 # lua-iconv
