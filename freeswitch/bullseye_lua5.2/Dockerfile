@@ -78,57 +78,57 @@ RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && m
 RUN && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && ldconfig \
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
-    && sed-i "/^#applications\/mod_curl$/s/^#//"modules.conf \
-    && sed-i "/^#applications\/mod_esl$/s/^#//"modules.conf \
-    && sed-i "s/^applications\/mod_signalwire/#&/g"modules.conf \
-    && sed-i "/^#event_handlers\/mod_odbc_cdr$/s/^#//"modules.conf \
-    && sed-i "/^#endpoints\/mod_portaudio$/s/^#//"modules.conf \
-    && sed-i "/^#asr_tts\/mod_flite$/s/^#//"modules.conf \
-    && sed-i "/^#languages\/mod_python3$/s/^#//"modules.conf \
-    && ./configure--bindir=/usr/bin--enable-core-odbc-support \
-    && make-j`nproc` && makeinstall\
-    && makemod_portaudio \
-    && makemod_portaudio-install\
-    && makecd-sounds-install\
-    && makecd-moh-install\
-    && makeuhd-sounds-install\
-    && makeuhd-moh-install\
-    && makehd-sounds-install\
-    && makehd-moh-install\
-    && makesounds-install\
-    && makemoh-install
+    && sed -i "/^#applications\/mod_curl$/s/^#//"modules.conf \
+    && sed -i "/^#applications\/mod_esl$/s/^#//"modules.conf \
+    && sed -i "s/^applications\/mod_signalwire/#&/g"modules.conf \
+    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//"modules.conf \
+    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//"modules.conf \
+    && sed -i "/^#asr_tts\/mod_flite$/s/^#//"modules.conf \
+    && sed -i "/^#languages\/mod_python3$/s/^#//"modules.conf \
+    && ./configure --bindir=/usr/bin --enable-core-odbc-support \
+    && make -j`nproc` && make install\
+    && make mod_portaudio \
+    && make mod_portaudio-install\
+    && make cd-sounds-install\
+    && make cd-moh-install\
+    && make uhd-sounds-install\
+    && make uhd-moh-install\
+    && make hd-sounds-install\
+    && make hd-moh-install\
+    && make sounds-install\
+    && make moh-install
  
 # unimrcp-deps
-RUN cd /usr/src\
+RUN cd /usr/src \
     && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download-O unimrcp-deps-1.6.0.tar.gz \
-    && tarxvzf unimrcp-deps-1.6.0.tar.gz \
-    && cdunimrcp-deps-1.6.0 \
-    && cdlibs/apr\
-    && ./configure--prefix=/usr/local/apr\
-    && make&& makeinstall\
-    && cd../apr-util\
-    && ./configure--prefix=/usr/local/apr--with-apr=/usr/local/apr\
-    && make&& makeinstall
+    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
+    && cd unimrcp-deps-1.6.0 \
+    && cd libs/apr \
+    && ./configure --prefix=/usr/local/apr \
+    && make && make install \
+    && cd ../apr-util \
+    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
+    && make && make install
  
 # unimrcp
-RUN cd /usr/src\
+RUN cd /usr/src \
     && git clone https://github.com/unispeech/unimrcp.git \
-    && cdunimrcp \
-    && ./bootstrap\
-    && ./configure--with-sofia-sip=/usr\
-    && make&& makeinstall
+    && cd unimrcp \
+    && ./bootstrap \
+    && ./configure --with-sofia-sip=/usr \
+    && make && make install
  
-RUN echo"export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig">> /etc/bash.bashrc
+RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
  
 # mod_unimrcp
-RUN cd /usr/src\
+RUN cd /usr/src \
     && git clone https://github.com/freeswitch/mod_unimrcp.git \
-    && cdmod_unimrcp \
+    && cd mod_unimrcp \
     && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && ldconfig \
-    && ./bootstrap.sh && ./configure&& make&& makeinstall
+    && ./bootstrap.sh && ./configure && make && make install
 
-RUN chown-R freeswitch:freeswitch /usr/local/freeswitch
+RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
  
 # Cleanup the image
 RUN apt-get clean
@@ -144,10 +144,10 @@ COPY docker-entrypoint.sh /
 # Open the container up to the world.
 ### 8021 fs_cli, 5060 5061 5080 5081 sip and sips, 64535-65535 rtp
 EXPOSE 8021/tcp
-EXPOSE 5060/tcp5060/udp5080/tcp5080/udp
-EXPOSE 5061/tcp5061/udp5081/tcp5081/udp
+EXPOSE 5060/tcp 5060/udp 5080/tcp 5080/udp
+EXPOSE 5061/tcp 5061/udp 5081/tcp 5081/udp
 EXPOSE 7443/tcp
-EXPOSE 5070/udp5070/tcp
+EXPOSE 5070/udp 5070/tcp
 #EXPOSE 64535-65535/udp
 #EXPOSE 16384-32768/udp
  
