@@ -135,7 +135,7 @@ RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 RUN apt-get clean
  
 # Uncomment to cleanup even more
-RUN rm-rf /usr/src/*
+RUN rm -rf /usr/src/*
 #-------------------------------
  
 COPY docker-entrypoint.sh /
@@ -165,7 +165,7 @@ COPY    build/freeswitch.limits.conf /etc/security/limits.d/
 # Healthcheck to make sure the service is running
 SHELL       ["/bin/bash"]
 HEALTHCHECK --interval=15s --timeout=5s \
-    CMD  fs_cli -x status | grep-q ^UP || exit1
+    CMD  fs_cli -x status | grep -q ^UP || exit 1
  
 ENTRYPOINT ["/docker-entrypoint.sh"]
  
