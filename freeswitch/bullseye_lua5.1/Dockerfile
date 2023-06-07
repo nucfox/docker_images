@@ -136,7 +136,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*; \
     \
 # Uncomment to cleanup even more
-    rm -rf /usr/src/*; \
+    rm -rf /usr/src/*
 #-------------------------------
  
 COPY docker-entrypoint.sh /
