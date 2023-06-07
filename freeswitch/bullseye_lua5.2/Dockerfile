@@ -33,7 +33,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # mod_av
     libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
-    lua5.2 liblua5.2-dev \
+    lua5.2 liblua5.3-dev \
 # luasocket
     lua-socket \
 # lua-iconv
@@ -75,32 +75,33 @@ RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && m
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
   
 #当需要打开其他模块的时候,就编辑 modules.conf 这个文件
-RUN && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
+RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
     && ldconfig \
     && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
-    && sed -i "/^#applications\/mod_curl$/s/^#//"modules.conf \
-    && sed -i "/^#applications\/mod_esl$/s/^#//"modules.conf \
-    && sed -i "s/^applications\/mod_signalwire/#&/g"modules.conf \
-    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//"modules.conf \
-    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//"modules.conf \
-    && sed -i "/^#asr_tts\/mod_flite$/s/^#//"modules.conf \
-    && sed -i "/^#languages\/mod_python3$/s/^#//"modules.conf \
+    && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
+    && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
+    && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
+    && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
+    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
+    && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
+    && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
     && ./configure --bindir=/usr/bin --enable-core-odbc-support \
-    && make -j`nproc` && make install\
+    && make -j `nproc` && make install \
     && make mod_portaudio \
-    && make mod_portaudio-install\
-    && make cd-sounds-install\
-    && make cd-moh-install\
-    && make uhd-sounds-install\
-    && make uhd-moh-install\
-    && make hd-sounds-install\
-    && make hd-moh-install\
-    && make sounds-install\
+    && make mod_portaudio-install \
+    && make cd-sounds-install \
+    && make cd-moh-install \
+    && make uhd-sounds-install \
+    && make uhd-moh-install \
+    && make hd-sounds-install \
+    && make hd-moh-install \
+    && make sounds-install \
     && make moh-install
  
 # unimrcp-deps
 RUN cd /usr/src \
-    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download-O unimrcp-deps-1.6.0.tar.gz \
+    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
     && tar xvzf unimrcp-deps-1.6.0.tar.gz \
     && cd unimrcp-deps-1.6.0 \
     && cd libs/apr \
@@ -134,7 +135,7 @@ RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
 RUN apt-get clean
  
 # Uncomment to cleanup even more
-RUN rm-rf /usr/src/*
+RUN rm -rf /usr/src/*
 #-------------------------------
  
 COPY docker-entrypoint.sh /
@@ -164,7 +165,7 @@ COPY    build/freeswitch.limits.conf /etc/security/limits.d/
 # Healthcheck to make sure the service is running
 SHELL       ["/bin/bash"]
 HEALTHCHECK --interval=15s --timeout=5s \
-    CMD  fs_cli -x status | grep-q ^UP || exit1
+    CMD  fs_cli -x status | grep -q ^UP || exit 1
  
 ENTRYPOINT ["/docker-entrypoint.sh"]
  
