@@ -101,7 +101,7 @@ RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CON
  
 # unimrcp-deps
 RUN cd /usr/src \
-    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download-O unimrcp-deps-1.6.0.tar.gz \
+    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
     && tar xvzf unimrcp-deps-1.6.0.tar.gz \
     && cd unimrcp-deps-1.6.0 \
     && cd libs/apr \
