@@ -82,6 +82,7 @@ RUN set -eux; \
       && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
       && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
       && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+      && sed -i "s/^endpoints\/mod_skinny/#&/g" modules.conf \
       && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
       && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
       && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
