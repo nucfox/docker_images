@@ -8,16 +8,19 @@ ARG FREESWITCH_VERSION=1.10.9
 # explicitly set user/group IDs
 RUN set -eux; \
       groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch; \
-      apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates; \
-      \
-      wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src; \
-      git clone https://github.com/signalwire/libks /usr/src/libs/libks; \
-      git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip; \
-      git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp; \
+      apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates;
+      
+RUN   wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src;
+RUN   git clone https://github.com/signalwire/libks /usr/src/libs/libks;
+RUN   git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip;
+RUN   git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp;
+RUN   wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O /usr/src/unimrcp-deps-1.6.0.tar.gz;
+RUN   git clone https://github.com/unispeech/unimrcp.git /usr/src/unimrcp;
+RUN   git clone https://github.com/freeswitch/mod_unimrcp.git /usr/src/mod_unimrcp;
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
-      \
-      DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+      
+RUN      DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
         build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
@@ -34,6 +37,8 @@ RUN set -eux; \
         libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
         lua5.1 liblua5.1-dev \
+# lua-http
+        lua-http \
 # luasocket
         lua-socket \
 # lua-iconv
@@ -104,7 +109,7 @@ RUN set -eux; \
     \
 # unimrcp-deps
     cd /usr/src \
-      && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
+    #  && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
       && tar xvzf unimrcp-deps-1.6.0.tar.gz \
       && cd unimrcp-deps-1.6.0 \
       && cd libs/apr \
@@ -116,7 +121,7 @@ RUN set -eux; \
     \
 # unimrcp
     cd /usr/src \
-      && git clone https://github.com/unispeech/unimrcp.git \
+    #  && git clone https://github.com/unispeech/unimrcp.git \
       && cd unimrcp \
       && ./bootstrap \
       && ./configure --with-sofia-sip=/usr \
@@ -126,13 +131,13 @@ RUN set -eux; \
     \
 # mod_unimrcp
     cd /usr/src \
-      && git clone https://github.com/freeswitch/mod_unimrcp.git \
+    #  && git clone https://github.com/freeswitch/mod_unimrcp.git \
       && cd mod_unimrcp \
       && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
       && ldconfig \
       && ./bootstrap.sh && ./configure && make && make install; \
     \
-    chown -R freeswitch:freeswitch /usr/local/freeswitch; \
+#    chown -R freeswitch:freeswitch /usr/local/freeswitch; \
     \
 # Cleanup the image
     apt-get clean; \
