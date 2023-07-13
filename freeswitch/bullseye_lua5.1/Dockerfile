@@ -4,7 +4,7 @@ FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
   
 ARG FREESWITCH_VERSION=1.10.9
-  
+COPY spandsp.tar.gz /usr/src/libs/
 # explicitly set user/group IDs
 RUN set -eux; \
       groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch; \
@@ -13,7 +13,7 @@ RUN set -eux; \
       wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src; \
       git clone https://github.com/signalwire/libks /usr/src/libs/libks; \
       git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip; \
-      git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp; \
+      #git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp; \
       wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O /usr/src/unimrcp-deps-1.6.0.tar.gz; \
       git clone https://github.com/unispeech/unimrcp.git /usr/src/unimrcp; \
       git clone https://github.com/freeswitch/mod_unimrcp.git /usr/src/mod_unimrcp; \
@@ -76,7 +76,8 @@ RUN set -eux; \
     \
     cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install; \
     cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
-    cd /usr/src/libs/spandsp && sed -i 's/AC_PREREQ(\[2.71\])/AC_PREREQ(\[2.69\])/g' configure.ac && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
+    #cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
+    cd /usr/src/libs && tar zxf spandsp.tar.gz && cd spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
     \
 #当需要打开其他模块的时候,就编辑 modules.conf 这个文件
