@@ -6,137 +6,145 @@ MAINTAINER Andrey Volk <andrey@signalwire.com>
 ARG FREESWITCH_VERSION=1.10.9
   
 # explicitly set user/group IDs
-RUN groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch
-  
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates
-  
-RUN wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src
-#RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
-RUN git clone https://github.com/signalwire/libks /usr/src/libs/libks
-RUN git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip
-RUN git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp
+RUN set -eux; \
+      groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch; \
+      apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -yq install git lsb-release wget iproute2 sngrep dirmngr gnupg2 ca-certificates; \
+      \
+      wget https://github.com/signalwire/freeswitch/archive/refs/tags/v$FREESWITCH_VERSION.tar.gz -P /usr/src/ && tar zxf /usr/src/v$FREESWITCH_VERSION.tar.gz -C /usr/src; \
+      git clone https://github.com/signalwire/libks /usr/src/libs/libks; \
+      git clone https://github.com/freeswitch/sofia-sip /usr/src/libs/sofia-sip; \
+      git clone https://github.com/freeswitch/spandsp /usr/src/libs/spandsp; \
+      wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O /usr/src/unimrcp-deps-1.6.0.tar.gz; \
+      git clone https://github.com/unispeech/unimrcp.git /usr/src/unimrcp; \
+      git clone https://github.com/freeswitch/mod_unimrcp.git /usr/src/mod_unimrcp; \
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
-  
-RUN DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+#RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
+      \
+      DEBIAN_FRONTEND=noninteractive apt-get -yq install \
 # build
-    build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \
+        build-essential cmake automake autoconf 'libtool-bin|libtool' pkg-config \
 # general
-    libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
+        libssl-dev zlib1g-dev libdb-dev unixodbc-dev libncurses5-dev libexpat1-dev libgdbm-dev bison erlang-dev libtpl-dev libtiff5-dev uuid-dev \
 # core
-    libpcre3-dev libedit-dev libsqlite3-dev libcurl4-openssl-dev nasm \
+        libpcre3-dev libedit-dev libsqlite3-dev libcurl4-openssl-dev nasm \
 # core codecs
-    libogg-dev libspeex-dev libspeexdsp-dev \
+        libogg-dev libspeex-dev libspeexdsp-dev \
 # mod_enum
-    libldns-dev \
+        libldns-dev \
 # mod_python3
-    python3-dev \
+        python3-dev \
 # mod_av
-    libavformat-dev libswscale-dev libavresample-dev \
+        libavformat-dev libswscale-dev libavresample-dev \
 # mod_lua
-    lua5.2 liblua5.2-dev \
+        lua5.2 liblua5.2-dev \
+# lua-http
+        lua-http \
 # luasocket
-    lua-socket \
+        lua-socket \
 # lua-iconv
-    lua-iconv \
+        lua-iconv \
 # lua-bitop
-    lua-bitop liblua5.1-bitop \
+        lua-bitop liblua5.1-bitop \
 # mod_opus
-    libopus-dev \
+        libopus-dev \
 # mod_pgsql
-    libpq-dev \
+        libpq-dev \
 # mod_portaudio
-    alsa-utils portaudio19-dev \
+        alsa-utils portaudio19-dev \
 # mod_flite
-    libflite1 flite1-dev \
+        libflite1 flite1-dev \
 # mod_sndfile
-    libsndfile1-dev libflac-dev libogg-dev libvorbis-dev \
+        libsndfile1-dev libflac-dev libogg-dev libvorbis-dev \
 # Basic ODBC tools and ODBC libraries for UNIX
-    unixodbc unixodbc-dev \
+        unixodbc unixodbc-dev \
 # ODBC driver for PostgreSQL
-    odbc-postgresql
+        odbc-postgresql; \
   
 # MySQL ODBC driver
-RUN wget https://repo.mysql.com/mysql-apt-config_0.8.24-1_all.deb -O mysql-apt-config.deb \
-    && export DEBIAN_FRONTEND=noninteractive && dpkg --install mysql-apt-config.deb \
-    && rm -f mysql-apt-config.deb \
-    && apt-get update \
-    && apt-get -yq install mysql-connector-odbc
-  
-RUN gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
-    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
-    && gpg --verify /usr/local/bin/gosu.asc \
-    && rm /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu
-  
-RUN cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install
-RUN cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
-RUN cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install
+    wget https://repo.mysql.com/mysql-apt-config_0.8.24-1_all.deb -O mysql-apt-config.deb \
+      && export DEBIAN_FRONTEND=noninteractive && dpkg --install mysql-apt-config.deb \
+      && rm -f mysql-apt-config.deb \
+      && apt-get update \
+      && apt-get -yq install mysql-connector-odbc; \
+    \
+    gpg2 --keyserver hkp://keyserver.ubuntu.com --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+      && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture)" \
+      && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/1.2/gosu-$(dpkg --print-architecture).asc" \
+      && gpg --verify /usr/local/bin/gosu.asc \
+      && rm /usr/local/bin/gosu.asc \
+      && chmod +x /usr/local/bin/gosu; \
+    \
+    cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install; \
+    cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
+    cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
-  
+    \
 #当需要打开其他模块的时候,就编辑 modules.conf 这个文件
-RUN export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
-    && ldconfig \
-    && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
-    && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
-    && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
-    && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
-    && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
-    && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
-    && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
-    && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
-    && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
-    && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
-    && ./configure --bindir=/usr/bin --enable-core-odbc-support \
-    && make -j `nproc` && make install \
-    && make mod_portaudio \
-    && make mod_portaudio-install \
-    && make cd-sounds-install \
-    && make cd-moh-install \
-    && make uhd-sounds-install \
-    && make uhd-moh-install \
-    && make hd-sounds-install \
-    && make hd-moh-install \
-    && make sounds-install \
-    && make moh-install
- 
+    export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:\$PKG_CONFIG_PATH \
+      && ldconfig \
+      && cd /usr/src/freeswitch-$FREESWITCH_VERSION && ./bootstrap.sh -j \
+      && sed -i "/^#applications\/mod_curl$/s/^#//" modules.conf \
+      && sed -i "/^#applications\/mod_esl$/s/^#//" modules.conf \
+      && sed -i "/^#applications\/mod_callcenter/s/^#//" modules.conf \
+      && sed -i "s/^applications\/mod_signalwire/#&/g" modules.conf \
+      && sed -i "s/^endpoints\/mod_skinny/#&/g" modules.conf \
+      && sed -i "/^#event_handlers\/mod_odbc_cdr$/s/^#//" modules.conf \
+      && sed -i "/^#endpoints\/mod_portaudio$/s/^#//" modules.conf \
+      && sed -i "/^#asr_tts\/mod_flite$/s/^#//" modules.conf \
+      && sed -i "/^#languages\/mod_python3$/s/^#//" modules.conf \
+      && sed -i "/^#event_handlers\/mod_cdr_pg_csv$/s/^#//" modules.conf \
+      && sed -i "/^#xml_int\/mod_xml_curl$/s/^#//" modules.conf \
+      && ./configure --bindir=/usr/bin --enable-core-odbc-support \
+      && make -j `nproc` && make install \
+      && make mod_portaudio \
+      && make mod_portaudio-install \
+      && make cd-sounds-install \
+      && make cd-moh-install \
+      && make uhd-sounds-install \
+      && make uhd-moh-install \
+      && make hd-sounds-install \
+      && make hd-moh-install \
+      && make sounds-install \
+      && make moh-install; \
+    \
 # unimrcp-deps
-RUN cd /usr/src \
-    && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
-    && tar xvzf unimrcp-deps-1.6.0.tar.gz \
-    && cd unimrcp-deps-1.6.0 \
-    && cd libs/apr \
-    && ./configure --prefix=/usr/local/apr \
-    && make && make install \
-    && cd ../apr-util \
-    && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
-    && make && make install
- 
+    cd /usr/src \
+    #  && wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O unimrcp-deps-1.6.0.tar.gz \
+      && tar xvzf unimrcp-deps-1.6.0.tar.gz \
+      && cd unimrcp-deps-1.6.0 \
+      && cd libs/apr \
+      && ./configure --prefix=/usr/local/apr \
+      && make && make install \
+      && cd ../apr-util \
+      && ./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr \
+      && make && make install; \
+    \
 # unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/unispeech/unimrcp.git \
-    && cd unimrcp \
-    && ./bootstrap \
-    && ./configure --with-sofia-sip=/usr \
-    && make && make install
- 
-RUN echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc
- 
+    cd /usr/src \
+    #  && git clone https://github.com/unispeech/unimrcp.git \
+      && cd unimrcp \
+      && ./bootstrap \
+      && ./configure --with-sofia-sip=/usr \
+      && make && make install; \
+    \
+    echo "export PKG_CONFIG_PATH=\$PKG_CONFIG_PATH:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig" >> /etc/bash.bashrc; \
+    \
 # mod_unimrcp
-RUN cd /usr/src \
-    && git clone https://github.com/freeswitch/mod_unimrcp.git \
-    && cd mod_unimrcp \
-    && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
-    && ldconfig \
-    && ./bootstrap.sh && ./configure && make && make install
-
-RUN chown -R freeswitch:freeswitch /usr/local/freeswitch
- 
+    cd /usr/src \
+    #  && git clone https://github.com/freeswitch/mod_unimrcp.git \
+      && cd mod_unimrcp \
+      && export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/freeswitch/lib/pkgconfig:/usr/local/unimrcp/lib/pkgconfig:\$PKG_CONFIG_PATH \
+      && ldconfig \
+      && ./bootstrap.sh && ./configure && make && make install; \
+    \
+#    chown -R freeswitch:freeswitch /usr/local/freeswitch; \
+    \
 # Cleanup the image
-RUN apt-get clean
- 
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*; \
+    \
 # Uncomment to cleanup even more
-RUN rm -rf /usr/src/*
+    rm -rf /usr/src/*
 #-------------------------------
  
 COPY docker-entrypoint.sh /
@@ -161,7 +169,7 @@ VOLUME ["/usr/local/freeswitch/conf"]
 VOLUME ["/tmp"]
  
 # Limits Configuration
-COPY    build/freeswitch.limits.conf /etc/security/limits.d/
+#COPY build/freeswitch.limits.conf /etc/security/limits.d/
  
 # Healthcheck to make sure the service is running
 SHELL       ["/bin/bash"]
