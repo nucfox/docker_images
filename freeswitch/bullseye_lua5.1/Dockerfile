@@ -76,7 +76,7 @@ RUN set -eux; \
     \
     cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install; \
     cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
-    cd /usr/src/libs/spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
+    cd /usr/src/libs/spandsp && sed -i 's/AC_PREREQ(\[2.71\])/AC_PREREQ(\[2.69\])/g' configure.ac && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
 #RUN cd /usr/src/libs/signalwire-c && PKG_CONFIG_PATH=/usr/lib/pkgconfig cmake . -DCMAKE_INSTALL_PREFIX=/usr && make install
     \
 #当需要打开其他模块的时候,就编辑 modules.conf 这个文件
