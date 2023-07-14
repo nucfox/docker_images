@@ -4,7 +4,7 @@ FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
   
 ARG FREESWITCH_VERSION=1.10.9
-COPY spandsp.tar.gz /usr/src/libs/
+#COPY spandsp.tar.gz /usr/src/libs/
 # explicitly set user/group IDs
 RUN set -eux; \
       groupadd -r freeswitch --gid=999 && useradd -r -g freeswitch --uid=999 freeswitch; \
