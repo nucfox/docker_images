@@ -17,7 +17,6 @@ RUN set -eux; \
       wget https://www.unimrcp.org/project/component-view/unimrcp-deps-1-6-0-tar-gz/download -O /usr/src/unimrcp-deps-1.6.0.tar.gz; \
       git clone https://github.com/unispeech/unimrcp.git /usr/src/unimrcp; \
       git clone https://github.com/freeswitch/mod_unimrcp.git /usr/src/mod_unimrcp; \
-      wget https://www.python.org/ftp/python/3.11.4/Python-3.11.4.tgz -P /usr/src/ && tar zxf /usr/src/Python-3.11.4.tgz -C /usr/src/; \
 #RUN git clone https://github.com/signalwire/signalwire-c /usr/src/libs/signalwire-c
 #RUN git clone https://github.com/signalwire/freeswitch /usr/src/freeswitch
       \
