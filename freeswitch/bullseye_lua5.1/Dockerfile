@@ -1,6 +1,6 @@
 #
-#FROM hub-mirror.c.163.com/library/debian:bullseye
-FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
+FROM hub-mirror.c.163.com/library/debian:bullseye
+#FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
 #FROM debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
   
