@@ -1,7 +1,7 @@
 #
 #FROM hub-mirror.c.163.com/library/debian:bullseye
-#FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
-FROM debian:bullseye
+FROM lwq88y1h.mirror.aliyuncs.com/library/debian:bullseye
+#FROM debian:bullseye
 MAINTAINER Andrey Volk <andrey@signalwire.com>
   
 ARG FREESWITCH_VERSION=1.10.9
@@ -76,7 +76,7 @@ RUN set -eux; \
       && rm /usr/local/bin/gosu.asc \
       && chmod +x /usr/local/bin/gosu; \
     \
-    cd /usr/src/libs/libks && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install; \
+    cd /usr/src/libs/libks && git reset --hard 81dfcf5e44f10149390567019285397f9b683fc4 && cmake . -DCMAKE_INSTALL_PREFIX=/usr -DWITH_LIBBACKTRACE=1 && make install; \
     cd /usr/src/libs/sofia-sip && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
     cd /usr/src/libs/spandsp && git reset --hard 0d2e6ac65e0e8f53d652665a743015a88bf048d4 && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
     #cd /usr/src/libs && tar zxf spandsp.tar.gz && cd spandsp && ./bootstrap.sh && ./configure --prefix=/usr && make -j`nproc --all` && make install; \
