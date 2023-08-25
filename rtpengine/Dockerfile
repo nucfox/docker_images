@@ -18,7 +18,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y wget gnupg2 ca-certificates iproute2
 
-RUN echo "deb https://deb.sipwise.com/spce/mr10.2.1/ bullseye main" > /etc/apt/sources.list.d/sipwise.list
+RUN echo "deb https://deb.sipwise.com/spce/mr10.5.3/ bullseye main" > /etc/apt/sources.list.d/sipwise.list
 
 RUN wget -q -O - https://deb.sipwise.com/spce/keyring/sipwise-keyring-bootstrap.gpg | apt-key add -
 RUN apt-get update && apt-get install -y ngcp-rtpengine
