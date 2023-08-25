@@ -4,14 +4,13 @@ MAINTAINER Seven Du <dujinfang@x-y-t.cn>
 
 #COPY sources.list.163.bullseye /etc/apt/sources.list
 #切换成163的debian 11 (bullseye)源
-RUN cat > /etc/apt/sources.list << EOF
-deb http://mirrors.163.com/debian/ bullseye main non-free contrib
-deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib
-deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/ bullseye main non-free contrib
-deb-src http://mirrors.163.com/debian/ bullseye-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib
-EOF
+RUN echo "deb http://mirrors.163.com/debian/ bullseye main non-free contrib\n\
+deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib\n\
+deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ bullseye main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ bullseye-updates main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\n"\
+> /etc/apt/sources.list
 
 
 ENV DEBIAN_FRONTEND=noninteractive
