@@ -18,7 +18,7 @@ deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\
     echo "deb https://deb.sipwise.com/spce/mr10.5.3/ bullseye main" > /etc/apt/sources.list.d/sipwise.list; \
     \
     wget -q -O - https://deb.sipwise.com/spce/keyring/sipwise-keyring-bootstrap.gpg | apt-key add - ; \
-    apt-get update && apt-get install -y ngcp-rtpengine ngcp-rtpengine-daemon ngcp-rtpengine-dbg ngcp-rtpengine-iptables ngcp-rtpengine-kernel-dkms; \
+    apt-get update && apt-get install -y ngcp-rtpengine; \
 # Cleanup the image
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
