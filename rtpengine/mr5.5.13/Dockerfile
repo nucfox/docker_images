@@ -1,5 +1,5 @@
 # FROM debian:bullseye
-FROM debian:stretch-slim
+FROM hub-mirror.c.163.com/library/debian:stretch-slim
 MAINTAINER Seven Du <dujinfang@x-y-t.cn>
 
 #COPY sources.list.163.bullseye /etc/apt/sources.list
