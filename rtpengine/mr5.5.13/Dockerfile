@@ -1,5 +1,5 @@
 # FROM debian:bullseye
-FROM debian:bullseye-slim@sha256:b771c35d1e6ecf2556718ad3c0f481b4a04c1fbc133c609643acc9dd6743ead2
+FROM debian:stretch-slim
 MAINTAINER Seven Du <dujinfang@x-y-t.cn>
 
 #COPY sources.list.163.bullseye /etc/apt/sources.list
@@ -15,7 +15,7 @@ deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\
     \
     DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y wget gnupg2 ca-certificates iproute2; \
     \
-    echo "deb https://deb.sipwise.com/spce/mr5.5.13/ bullseye main" > /etc/apt/sources.list.d/sipwise.list; \
+    echo "deb https://deb.sipwise.com/spce/mr5.5.13/ stretch main" > /etc/apt/sources.list.d/sipwise.list; \
     \
     wget -q -O - https://deb.sipwise.com/spce/keyring/sipwise-keyring-bootstrap.gpg | apt-key add - ; \
     apt-get update && apt-get install -y ngcp-rtpengine ngcp-rtpengine-iptables; \
