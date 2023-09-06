@@ -15,7 +15,7 @@ deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\
     \
     DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y wget gnupg2 ca-certificates iproute2; \
     \
-    echo "deb https://deb.sipwise.com/spce/mr10.5.3/ bullseye main" > /etc/apt/sources.list.d/sipwise.list; \
+    echo "deb https://deb.sipwise.com/spce/mr10.5.5/ bullseye main" > /etc/apt/sources.list.d/sipwise.list; \
     \
     wget -q -O - https://deb.sipwise.com/spce/keyring/sipwise-keyring-bootstrap.gpg | apt-key add - ; \
     apt-get update && apt-get install -y ngcp-rtpengine ngcp-rtpengine-iptables; \
