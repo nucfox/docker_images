@@ -5,12 +5,12 @@ MAINTAINER Seven Du <dujinfang@x-y-t.cn>
 #COPY sources.list.163.bullseye /etc/apt/sources.list
 #切换成163的debian 11 (bullseye)源
 RUN set -eux; \
-    echo "deb http://mirrors.163.com/debian/ bullseye main non-free contrib\n\
-deb http://mirrors.163.com/debian/ bullseye-updates main non-free contrib\n\
-deb http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\n\
-deb-src http://mirrors.163.com/debian/ bullseye main non-free contrib\n\
-deb-src http://mirrors.163.com/debian/ bullseye-updates main non-free contrib\n\
-deb-src http://mirrors.163.com/debian/ bullseye-backports main non-free contrib\n"\
+    echo "deb http://mirrors.163.com/debian/ stretch main non-free contrib\n\
+deb http://mirrors.163.com/debian/ stretch-updates main non-free contrib\n\
+deb http://mirrors.163.com/debian/ stretch-backports main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ stretch main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ stretch-updates main non-free contrib\n\
+deb-src http://mirrors.163.com/debian/ stretch-backports main non-free contrib\n"\
     > /etc/apt/sources.list; \
     \
     DEBIAN_FRONTEND=noninteractive  apt-get update && apt-get install -y wget gnupg2 ca-certificates iproute2; \
