@@ -1,6 +1,6 @@
 #
-#FROM eclipse-temurin:11-jre
-FROM hub-mirror.c.163.com/library/eclipse-temurin:11-jre
+FROM eclipse-temurin:11-jre
+#FROM hub-mirror.c.163.com/library/eclipse-temurin:11-jre
 
 ENV ZOO_CONF_DIR=/conf \
     ZOO_DATA_DIR=/data \
@@ -24,7 +24,7 @@ RUN set -eux; \
 
 # Install required packges
 RUN set -eux; \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C; \
+#    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C; \
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
