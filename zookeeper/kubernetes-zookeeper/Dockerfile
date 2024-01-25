@@ -23,6 +23,7 @@ RUN set -eux; \
 
 # Install required packges
 RUN set -eux; \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 871920D1991BC93C; \
     apt-get update; \
     DEBIAN_FRONTEND=noninteractive \
     apt-get install -y --no-install-recommends \
