@@ -1,5 +1,6 @@
 #
-FROM eclipse-temurin:11-jre
+#FROM eclipse-temurin:11-jre
+FROM hub-mirror.c.163.com/library/eclipse-temurin:11-jre
 
 ENV ZOO_CONF_DIR=/conf \
     ZOO_DATA_DIR=/data \
