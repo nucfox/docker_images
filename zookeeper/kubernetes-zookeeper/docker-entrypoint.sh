@@ -12,6 +12,7 @@ USER=`whoami`
 HOST=`hostname -s`
 DOMAIN=`hostname -d`
 SERVERS_NUM=${ZOO_SERVERS_NUM:-1}
+TMP_DIR=${ZOO_CONFTMP_DIR:-"/conftmp"}
 
 # Allow the container to be started with `--user`
 if [[ "$1" = 'zkServer.sh' && "$(id -u)" = '0' ]]; then
@@ -19,7 +20,7 @@ if [[ "$1" = 'zkServer.sh' && "$(id -u)" = '0' ]]; then
     exec gosu zookeeper "$0" "$@"
 fi
 
-if [[ ! -f "$ZOO_CONF_DIR/zoostate.cfg" ]]; then
+if [[ ! -f "$TMP_DIR/zoostate.cfg" ]]; then
     if [[ -z $ZOO_SERVERS ]]; then
         ZOO_SERVERS="server:1:participant"
     fi
@@ -33,10 +34,17 @@ else
             continue
         fi
         ZOOSTATE_ARRAY+=("$line")
-    done < "$ZOO_CONF_DIR/zoostate.cfg"
+    done < "$TMP_DIR/zoostate.cfg"
 fi
 
 function check_zoostate() {
+    echo ---- ZOOSTATE_ARRAY BEGIN ----
+    for i in "${ZOOSTATE_ARRAY[@]}"
+    do
+      echo $i
+    done
+    echo ---- ZOOSTATE_ARRAY END ----
+    echo ${SERVERS_NUM}
     if [ ${#ZOOSTATE_ARRAY[@]} -ne ${SERVERS_NUM} ]; then
         echo "The number of lines in the Zookeeper state does not match the number of servers."
         exit 1
@@ -62,7 +70,43 @@ function print_servers() {
     done
 }
 
+function create_zoocfg() {
+if [[ -f "$TMP_DIR/zoo.cfg" ]]; then
+    cp -L -f "$TMP_DIR/zoo.cfg" "$ZOO_CONF_DIR/zoo.cfg"
+fi
+}
+
+function create_logback() {
+if [[ -f "$TMP_DIR/logback.xml" ]]; then
+    cp -L -f "$TMP_DIR/logback.xml" "$ZOO_CONF_DIR/logback.xml"
+else
+cat > logback.xml << 'EOF'
+<configuration>
+  <property name="zookeeper.console.threshold" value="INFO" />
+  <property name="zookeeper.log.dir" value="." />
+  <property name="zookeeper.log.file" value="zookeeper.log" />
+  <property name="zookeeper.log.threshold" value="INFO" />
+  <property name="zookeeper.log.maxfilesize" value="256MB" />
+  <property name="zookeeper.log.maxbackupindex" value="20" />
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601} [myid:%X{myid}] - %-5p [%t:%C{1}@%L] - %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>${zookeeper.console.threshold}</level>
+    </filter>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+  </root>
+</configuration>
+EOF
+fi
+}
+
 check_zoostate
+create_zoocfg
+create_logback
 
 if [[ $HOST =~ (.*)-([0-9]+)$ ]]; then
     NAME=${BASH_REMATCH[1]}
@@ -99,6 +143,9 @@ if [[ ! -f "$ZOO_CONF_DIR/zoo.cfg" ]]; then
     for cfg_extra_entry in $ZOO_CFG_EXTRA; do
         echo "$cfg_extra_entry" >> "$CONFIG"
     done
+else
+  CONFIG="$ZOO_CONF_DIR/zoo.cfg"
+  print_servers >> $CONFIG
 fi
 
 MY_ID=$((ORD+1))
