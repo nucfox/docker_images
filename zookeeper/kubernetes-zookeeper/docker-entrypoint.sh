@@ -13,6 +13,7 @@ HOST=`hostname -s`
 DOMAIN=`hostname -d`
 SERVERS_NUM=${ZOO_SERVERS_NUM:-1}
 TMP_DIR=${ZOO_CONFTMP_DIR:-"/conftmp"}
+TLS_ENABLE=${ZOO_TLS_ENABLE:-"false"}
 
 # Allow the container to be started with `--user`
 if [[ "$1" = 'zkServer.sh' && "$(id -u)" = '0' ]]; then
@@ -60,14 +61,24 @@ function check_zoostate() {
 }
 
 function print_servers() {
+    shopt -s nocasematch
     for (( i=1; i<=$SERVERS_NUM; i++ ))
     do
         if [[ "$(echo ${ZOOSTATE_ARRAY[$((i-1))]} | awk -F: '{print $3}')" = "observer" ]]; then
+          if [[ "${TLS_ENABLE}" == true ]]; then
+            echo "server.$i=$NAME-$((i-1)).$DOMAIN:$SERVER_PORT:$ELECTION_PORT:observer;"
+          else
             echo "server.$i=$NAME-$((i-1)).$DOMAIN:$SERVER_PORT:$ELECTION_PORT:observer;$CLIENT_PORT"
+          fi
         else
+          if [[ "${TLS_ENABLE}" == true ]]; then
+            echo "server.$i=$NAME-$((i-1)).$DOMAIN:$SERVER_PORT:$ELECTION_PORT;"
+          else
             echo "server.$i=$NAME-$((i-1)).$DOMAIN:$SERVER_PORT:$ELECTION_PORT;$CLIENT_PORT"
+          fi
         fi
     done
+    shopt -u nocasematch
 }
 
 function create_zoocfg() {
